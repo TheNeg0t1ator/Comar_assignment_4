@@ -1,0 +1,31 @@
+
+#####################" Important #########################
+
+1. Always run flow from "work" directory. Paths are specified relative to that directory.
+2. "source setEnv.sh" before running any tool. This sets your environment.
+3. You can run "source ../clean.sh" from the work directory to clean your design. This removes all outputs and reports.
+
+#####################" Synthesis #########################
+
+1. Run full flow:
+
+genus -files ../syn/scripts/run_all.tcl
+
+2. Start genus
+
+genus
+
+3. start gui in genus cmd line
+
+genus> gui_show
+
+#####################" Place and Route #########################
+
+
+1. Run full flow
+
+
+
+2. Start innovus
+
+innovus
