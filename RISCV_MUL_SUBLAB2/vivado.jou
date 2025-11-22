@@ -1,0 +1,29 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Fri Nov 21 14:30:16 2025
+# Process ID         : 27780
+# Current directory  : C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_MUL_SUBLAB2
+# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent32724 C:\Users\seppe\Documents\GitHub\Comar_assignment_4\RISCV_MUL_SUBLAB2\RISCV_MUL_SUBLAB2.xpr
+# Log file           : C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_MUL_SUBLAB2/vivado.log
+# Journal file       : C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_MUL_SUBLAB2\vivado.jou
+# Running On         : Kurl
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26100
+# Processor Detail   : AMD Ryzen AI 5 340 w/ Radeon 840M              
+# CPU Frequency      : 1996 MHz
+# CPU Physical cores : 6
+# CPU Logical cores  : 12
+# Host memory        : 16955 MB
+# Swap memory        : 15343 MB
+# Total Virtual      : 32299 MB
+# Available Virtual  : 5642 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_MUL_SUBLAB2/RISCV_MUL_SUBLAB2.xpr
+update_compile_order -fileset sources_1
+save_project_as RISCV_SUBLAB3 C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_SUBLAB3 -force
+import_files
+synth_design -rtl -rtl_skip_mlo -name rtl_1
