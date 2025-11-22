@@ -194,6 +194,59 @@ architecture arch_DataPath of DataPath is
         );
     end component;
     
+    component EX_MEM
+        port (
+            clk             : in  std_logic;
+            rst             : in  std_logic;
+            enable          : in  std_logic;
+    
+            -- Inputs from EX stage
+            ALU_result_ex_in    : in  std_logic_vector(31 downto 0);
+            rs2_val_ex_in       : in  std_logic_vector(31 downto 0); 
+            rd_ex_in            : in  std_logic_vector(4 downto 0);
+    
+            mem_read_ex_in      : in  std_logic;
+            mem_write_ex_in     : in  std_logic;
+            reg_write_ex_in     : in  std_logic;
+            mem_to_reg_ex_in    : in  std_logic;
+    
+            -- Outputs to MEM stage
+            ALU_result_mem_out  : out std_logic_vector(31 downto 0);
+            rs2_val_mem_out     : out std_logic_vector(31 downto 0);
+            rd_mem_out          : out std_logic_vector(4 downto 0);
+    
+            mem_read_mem_out    : out std_logic;
+            mem_write_mem_out   : out std_logic;
+            reg_write_mem_out   : out std_logic;
+            mem_to_reg_mem_out  : out std_logic
+        );
+    end component;
+    
+    component MEM_WB
+        port (
+            clk             : in  std_logic;
+            rst             : in  std_logic;
+            enable          : in  std_logic;
+    
+            -- Inputs from MEM stage
+            mem_data_mem_in     : in  std_logic_vector(31 downto 0); -- loaded data
+            ALU_result_mem_in   : in  std_logic_vector(31 downto 0);
+            rd_mem_in           : in  std_logic_vector(4 downto 0);
+    
+            reg_write_mem_in    : in  std_logic;
+            mem_to_reg_mem_in   : in  std_logic;
+    
+            -- Outputs to WB stage
+            mem_data_wb_out     : out std_logic_vector(31 downto 0);
+            ALU_result_wb_out   : out std_logic_vector(31 downto 0);
+            rd_wb_out           : out std_logic_vector(4 downto 0);
+    
+            reg_write_wb_out    : out std_logic;
+            mem_to_reg_wb_out   : out std_logic
+        );
+    end component;
+    
+        
     signal PCOut_IF_ID, PCOutPlus_IF_ID     : std_logic_vector(31 downto 0);    --data out from PC register
     signal PCOut, PCOutPlus     : std_logic_vector(31 downto 0);    --data out from PC register
     signal instruction_To_IF_ID : std_logic_vector(31 downto 0);    --instruction from ROM mem to IF_ID
