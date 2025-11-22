@@ -17,7 +17,7 @@ architecture arch_DataPath of DataPath is
         port (
             PCIn    : in std_logic_vector(31 downto 0);
             clk     : in std_logic;
-            rst     : in std_logic;                                                     
+            rst     : in std_logic;
             PCOut   : out std_logic_vector(31 downto 0)
         );
     end component;
@@ -38,7 +38,7 @@ architecture arch_DataPath of DataPath is
             destinyReg  :in std_logic_vector(4 downto 0);       --address of rd
             data        :in std_logic_vector(31 downto 0);      --Data to be written
             readData1   :out std_logic_vector(31 downto 0);     --data in rs1
-            readData2   :out std_logic_vector(31 downto 0)      --data in rs2    
+            readData2   :out std_logic_vector(31 downto 0)      --data in rs2
         );
     end component;
 
@@ -47,7 +47,7 @@ architecture arch_DataPath of DataPath is
             muxIn0      :in std_logic_vector(31 downto 0);
             muxIn1      :in std_logic_vector(31 downto 0);
             selector    :in std_logic;
-            muxOut      :out std_logic_vector(31 downto 0)    
+            muxOut      :out std_logic_vector(31 downto 0)
     );
     end component;
 
@@ -59,7 +59,7 @@ architecture arch_DataPath of DataPath is
             result      :out std_logic_vector(31 downto 0);
             zero        :out std_logic;
             carryOut    :out std_logic;
-            signo  		:out std_logic
+            signo       :out std_logic
         );
     end component;
 
@@ -132,7 +132,7 @@ architecture arch_DataPath of DataPath is
             WriteReg    : out std_logic
         );
     end component;
-    
+
     component multiplier
         port (
             operator1   : in std_logic_vector(32-1 downto 0);
@@ -140,16 +140,16 @@ architecture arch_DataPath of DataPath is
             product     : out std_logic_vector(2*32-1 downto 0)
         );
     end component;
-    
+
     component if_id
         port (
-		  instruction_if_in     :in std_logic_vector(31 downto 0);
-		  PC_if_in			    :in std_logic_vector(31 downto 0);
-          clk					:in std_logic;
-		  rst					:in std_logic;
-		  enable				:in std_logic;
+          instruction_if_in     :in std_logic_vector(31 downto 0);
+          PC_if_in              :in std_logic_vector(31 downto 0);
+          clk                   :in std_logic;
+          rst                   :in std_logic;
+          enable                :in std_logic;
           instruction_id_out    :out std_logic_vector(31 downto 0);
-		  PC_id_out			    :out std_logic_vector(31 downto 0) 
+          PC_id_out             :out std_logic_vector(31 downto 0)
         );
     end component;
 
@@ -161,7 +161,7 @@ architecture arch_DataPath of DataPath is
             enable              : in std_logic;
             -- inputs to EX stage
             immediate_id_in    : in std_logic_vector(31 downto 0);
-            --MUX0 
+            --MUX0
             ALUSrc_id_in       : in std_logic;
             --MUX1
             StoreSel_id_in     : in std_logic;
@@ -181,7 +181,7 @@ architecture arch_DataPath of DataPath is
             reg_write_id_in    : in std_logic;
             -- Outputs to EX stage
             immediate_id_out    : out std_logic_vector(31 downto 0);
-            --MUX0 
+            --MUX0
             ALUSrc_id_out       : out std_logic;
             --MUX1
             StoreSel_id_out     : out std_logic;
@@ -201,7 +201,7 @@ architecture arch_DataPath of DataPath is
             reg_write_id_out    : out std_logic
         );
     end component;
-    
+
     component EX_MEM
     port (
             clk                         : in  std_logic;
@@ -218,7 +218,7 @@ architecture arch_DataPath of DataPath is
                 MUL_result_ex_in        : in std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
                 rd_ex_in                : in std_logic_vector(4 downto 0);
                 reg_write_ex_in         : in std_logic;
-    
+
             -- Outputs to MEM stage
                 ALU_result_ex_out       : out std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
             -- RAM
@@ -227,12 +227,12 @@ architecture arch_DataPath of DataPath is
             --MEM_WB
                 mux_sell_ex_out         : out std_logic_vector(2 downto 0);
                 pc_ex_out               : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-                MUL_result_ex_out       : out std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7) 
+                MUL_result_ex_out       : out std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
                 rd_ex_out               : out std_logic_vector(4 downto 0);
                 reg_write_ex_out        : out std_logic
         );
     end component;
-    
+
     component MEM_WB
         port (
             clk             : in  std_logic;
@@ -245,10 +245,10 @@ architecture arch_DataPath of DataPath is
                 mem_data_wb_in     : in std_logic_vector(31 downto 0); -- LB LW   (MUX1&MUX2)
                 pc_wb_in           : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
                 MUL_result_wb_in   : in std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
-            -- Writing to register File 
+            -- Writing to register File
                 rd_wb_in           : in std_logic_vector(4 downto 0);
                 reg_write_wb_in    : in std_logic;
-    
+
             -- Outputs to WB stage
             -- MUX
             mux_sell_wb_out     : out std_logic_vector(2 downto 0);
@@ -256,106 +256,117 @@ architecture arch_DataPath of DataPath is
             mem_data_wb_out     : out std_logic_vector(31 downto 0); -- LB LW   (MUX1&MUX2)
             pc_wb_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
             MUL_result_wb_out   : out std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
-            
-            
-            -- Writing to register File 
+
+
+            -- Writing to register File
             rd_wb_out           : out std_logic_vector(4 downto 0);
             reg_write_wb_out    : out std_logic
         );
     end component;
-    
+
 -- ===================== Signals =====================
     signal PCOut_IF_ID, PCOutPlus_IF_ID, PCOut, PCOutPlus : std_logic_vector(31 downto 0);
     signal instruction_To_IF_ID, instruction : std_logic_vector(31 downto 0);
     signal PCIn : std_logic_vector(31 downto 0);
+
+-- Additional small signals that were missing
+    signal newAddress   : std_logic_vector(31 downto 0);
+    signal PCSrc        : std_logic;
+    signal offset       : std_logic_vector(31 downto 0);
+    signal shifted      : std_logic_vector(31 downto 0);
+
 -- ID-EX reg
-        -- inputs to EX stage
-        signal immediate_id_in    : std_logic_vector(31 downto 0);
-        --MUX0 
-        signal ALUSrc_id_in       : std_logic;
-        --MUX1
-        signal StoreSel_id_in     : std_logic;
-        --MUX2
-        signal Jump_id_in         : std_logic;
-        --Branch-Control
-        signal Branch_id_in       : std_logic_vector(2 downto 0);
-        --ALU
-        signal ALUOp_id_in        : std_logic_vector(2 downto 0);
-        signal regData1_id_in     : std_logic_vector(31 downto 0);
-        signal regData2_id_in     : std_logic_vector(31 downto 0);
-        --EX-MEM
-        signal mem_write_en_id_in :  std_logic;
-        signal mux_sell_id_in     : std_logic_vector(2 downto 0);
-        signal pc_id_in           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-        signal rd_id_in           : std_logic_vector(4 downto 0);
-        signal reg_write_id_in    : std_logic;
-        -- Outputs to EX stage
-        signal immediate_id_out    : std_logic_vector(31 downto 0);
-        --MUX0 
-        signal ALUSrc_id_out       : std_logic;
-        --MUX1
-        signal StoreSel_id_out     : std_logic;
-        --MUX2
-        signal Jump_id_out         : std_logic;
-        --Branch-Control
-        signal Branch_id_out       : std_logic_vector(2 downto 0);
-        --ALU
-        signal ALUOp_id_out        : std_logic_vector(2 downto 0);
-        signal regData1_id_out     : std_logic_vector(31 downto 0);
-        signal regData2_id_out     : std_logic_vector(31 downto 0);
-        --EX-MEM
-        signal mem_write_en_id_out :  std_logic;
-        signal mux_sell_id_out     : std_logic_vector(2 downto 0);
-        signal pc_id_out           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-        signal rd_id_out           : std_logic_vector(4 downto 0);
-        signal reg_write_id_out    : std_logic;
+    -- inputs to EX stage
+    signal immediate_id_in    : std_logic_vector(31 downto 0);
+    --MUX0
+    signal ALUSrc_id_in       : std_logic;
+    --MUX1
+    signal StoreSel_id_in     : std_logic;
+    --MUX2
+    signal Jump_id_in         : std_logic;
+    --Branch-Control
+    signal Branch_id_in       : std_logic_vector(2 downto 0);
+    --ALU
+    signal ALUOp_id_in        : std_logic_vector(2 downto 0);
+    signal regData1_id_in     : std_logic_vector(31 downto 0);
+    signal regData2_id_in     : std_logic_vector(31 downto 0);
+    --EX-MEM
+    signal mem_write_en_id_in :  std_logic;
+    signal mux_sell_id_in     : std_logic_vector(2 downto 0);
+    signal pc_id_in           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+    signal rd_id_in           : std_logic_vector(4 downto 0);
+    signal reg_write_id_in    : std_logic;
+    -- Outputs to EX stage
+    signal immediate_id_out    : std_logic_vector(31 downto 0);
+    --MUX0
+    signal ALUSrc_id_out       : std_logic;
+    --MUX1
+    signal StoreSel_id_out     : std_logic;
+    --MUX2
+    signal Jump_id_out         : std_logic;
+    --Branch-Control
+    signal Branch_id_out       : std_logic_vector(2 downto 0);
+    --ALU
+    signal ALUOp_id_out        : std_logic_vector(2 downto 0);
+    signal regData1_id_out     : std_logic_vector(31 downto 0);
+    signal regData2_id_out     : std_logic_vector(31 downto 0);
+    --EX-MEM
+    signal mem_write_en_id_out :  std_logic;
+    signal mux_sell_id_out     : std_logic_vector(2 downto 0);
+    signal pc_id_out           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+    signal rd_id_out           : std_logic_vector(4 downto 0);
+    signal reg_write_id_out    : std_logic;
+
 -- EX
     --MUX0
-        signal op2_ex: std_logic_vector(31 downto 0);
+    signal op2_ex: std_logic_vector(31 downto 0);
     --MUX1
-        signal regData2Anded: std_logic_vector(31 downto 0);
+    signal regData2Anded: std_logic_vector(31 downto 0);
     --ALU
-        signal signo, zero, carry: std_logic;
+    signal signo, zero, carry: std_logic;
+
 -- EX-MEM reg
     -- Inputs from EX stage
-        signal ALU_result_ex_in        : std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
+    signal ALU_result_ex_in        : std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
     -- RAM
-        signal mem_write_en_ex_in      : std_logic;
-        signal mem_write_data_ex_in    : std_logic_vector(31 downto 0);
+    signal mem_write_en_ex_in      : std_logic;
+    signal mem_write_data_ex_in    : std_logic_vector(31 downto 0);
     --MEM_WB
-        signal mux_sell_ex_in          : std_logic_vector(2 downto 0);
-        signal pc_ex_in                : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-        signal MUL_result_ex_in        : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
-        signal rd_ex_in                : std_logic_vector(4 downto 0);
-        signal reg_write_ex_in         : std_logic;
+    signal mux_sell_ex_in          : std_logic_vector(2 downto 0);
+    signal pc_ex_in                : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+    signal MUL_result_ex_in        : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
+    signal rd_ex_in                : std_logic_vector(4 downto 0);
+    signal reg_write_ex_in         : std_logic;
     -- Outputs to MEM stage
-        signal ALU_result_ex_out       : std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
+    signal ALU_result_ex_out       : std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
     -- RAM
-        signal mem_write_en_ex_out     : std_logic;
-        signal mem_write_data_ex_out   : std_logic_vector(31 downto 0);
+    signal mem_write_en_ex_out     : std_logic;
+    signal mem_write_data_ex_out   : std_logic_vector(31 downto 0);
+
 -- MEM-WB reg
     -- input
     --MUX
-        signal mux_sell_wb_in     : std_logic_vector(2 downto 0);
-        signal ALU_result_wb_in   : std_logic_vector(31 downto 0); -- ALU     (MUX0)
-        signal mem_data_wb_in     : std_logic_vector(31 downto 0); -- LB LW   (MUX1&MUX2)
-        signal pc_wb_in           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-        signal MUL_result_wb_in   : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
+    signal mux_sell_wb_in     : std_logic_vector(2 downto 0);
+    signal ALU_result_wb_in   : std_logic_vector(31 downto 0); -- ALU     (MUX0)
+    signal mem_data_wb_in     : std_logic_vector(31 downto 0); -- LB LW   (MUX1&MUX2)
+    signal pc_wb_in           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+    signal MUL_result_wb_in   : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
     --REFILE
-        signal rd_wb_in           : std_logic_vector(4 downto 0);
-        signal reg_write_wb_in    : std_logic;
+    signal rd_wb_in           : std_logic_vector(4 downto 0);
+    signal reg_write_wb_in    : std_logic;
     -- output
     --MUX
-        signal mux_sell_wb_out     : std_logic_vector(2 downto 0);
-        signal ALU_result_wb_out   : std_logic_vector(31 downto 0); -- ALU     (MUX0)
-        signal mem_data_wb_out     : std_logic_vector(31 downto 0); -- LB LW   (MUX1&MUX2)
-        signal pc_wb_out           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-        signal MUL_result_wb_out   : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
+    signal mux_sell_wb_out     : std_logic_vector(2 downto 0);
+    signal ALU_result_wb_out   : std_logic_vector(31 downto 0); -- ALU     (MUX0)
+    signal mem_data_wb_out     : std_logic_vector(31 downto 0); -- LB LW   (MUX1&MUX2)
+    signal pc_wb_out           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+    signal MUL_result_wb_out   : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
     --REFILE
-        signal rd_wb_out           : std_logic_vector(4 downto 0);
-        signal reg_write_wb_out    : std_logic;
---
-        signal data_For_RegFile : std_logic_vector(31 downto 0);
+    signal rd_wb_out           : std_logic_vector(4 downto 0);
+    signal reg_write_wb_out    : std_logic;
+
+    signal data_For_RegFile : std_logic_vector(31 downto 0);
+
 begin
 
 -- ===================== IF STAGE =====================
@@ -371,7 +382,7 @@ ROM: Instruction_Mem port map (
     instruction => instruction_To_IF_ID
 );
 
-PCOutPlus <= PCOut + 4;
+PCOutPlus <=  PCOut_IF_ID + 4;
 
 Mux3: Mux port map (
     muxIn0   => PCOutPlus,
@@ -429,7 +440,7 @@ ID_EX_REG: ID_EX port map (
     enable              => '1',
     -- inputs to EX stage
     immediate_id_in     => immediate_id_in,
-    --MUX0 
+    --MUX0
     ALUSrc_id_in        => ALUSrc_id_in,
     --MUX1
     StoreSel_id_in      => StoreSel_id_in,
@@ -446,15 +457,15 @@ ID_EX_REG: ID_EX port map (
     mux_sell_id_in      => mux_sell_id_in,
     pc_id_in            => PCOut,
     rd_id_in            => instruction(11 downto 7),
-    reg_write_id_in     =>reg_write_id_in,
+    reg_write_id_in     => reg_write_id_in,
     -- Outputs to EX stage
     immediate_id_out    => immediate_id_out,
-    --MUX0 
+    --MUX0
     ALUSrc_id_out       => ALUSrc_id_out,
     --MUX1
     StoreSel_id_out     => StoreSel_id_out,
     --MUX2
-    Jump_id_out         => Jump_id_out, 
+    Jump_id_out         => Jump_id_out,
     --Branch-Control
     Branch_id_out       => Branch_id_out,
     --ALU
@@ -516,7 +527,7 @@ Mux2: Mux port map (
 
 regData2Anded <= regData2_id_out and X"000000FF";
 shifted       <= offset(30 downto 0) & '0';
-newAddress    <= PC_ex + shifted;
+newAddress    <= pc_ex_in + shifted;
 
 -- ===================== EX_MEM =====================
 EX_MEM_REG: EX_MEM port map (
@@ -545,7 +556,7 @@ EX_MEM_REG: EX_MEM port map (
         pc_ex_out               => pc_wb_in,
         MUL_result_ex_out       => MUL_result_wb_in,
         rd_ex_out               => rd_wb_in,
-        reg_write_ex_out        => reg_write_wb_out
+        reg_write_ex_out        => reg_write_wb_in
 );
 
 -- ===================== MEM STAGE =====================
@@ -569,7 +580,7 @@ MEM_WB_REG: MEM_WB port map (
          mem_data_wb_in     => mem_data_wb_in,       -- LB LW   (MUX1&MUX2)
          pc_wb_in           => pc_wb_in,             -- ALU     (MUX3&MUX5)
          MUL_result_wb_in   => MUL_result_wb_in,     -- ALU     (MUX6&MUX7)
-    -- Writing to register File 
+    -- Writing to register File
          rd_wb_in           => rd_wb_in,
          reg_write_wb_in    => reg_write_wb_in,
     -- Outputs to WB stage
@@ -579,8 +590,8 @@ MEM_WB_REG: MEM_WB port map (
         mem_data_wb_out     => mem_data_wb_out,      -- LB LW   (MUX1&MUX2)
         pc_wb_out           => pc_wb_out, -- ALU     (MUX3&MUX5)
         MUL_result_wb_out   => MUL_result_wb_out,-- ALU     (MUX6&MUX7)
-    -- Writing to register File 
-        rd_wb_out           => rd_wb_out, 
+    -- Writing to register File
+        rd_wb_out           => rd_wb_out,
         reg_write_wb_out    => reg_write_wb_out
 );
 
@@ -598,6 +609,7 @@ WB_MUX: Mux_ToRegFile port map (
     muxOut   => data_For_RegFile
 );
 
-ALU_result <= result;
+-- expose ALU result from EX stage on top-level port (helps debugging)
+ALU_result <= ALU_result_ex_in;
 
 end architecture arch_DataPath;
