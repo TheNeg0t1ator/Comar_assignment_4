@@ -152,6 +152,47 @@ architecture arch_DataPath of DataPath is
 		  PC_id_out			    :out std_logic_vector(31 downto 0) 
         );
     end component;
+
+    -- ID_EX component declaration (added)
+    component ID_EX
+        port (
+            -- Inputs from ID stage
+            instruction_id_in   : in std_logic_vector(31 downto 0);
+            PC_id_in            : in std_logic_vector(31 downto 0);
+            regData1_id_in      : in std_logic_vector(31 downto 0);
+            regData2_id_in      : in std_logic_vector(31 downto 0);
+            immediate_id_in     : in std_logic_vector(31 downto 0);
+
+            ALUOp_id_in         : in std_logic_vector(2 downto 0);
+            ALUSrc_id_in        : in std_logic;
+            Branch_id_in        : in std_logic_vector(2 downto 0);
+            MemWrite_id_in      : in std_logic;
+            Jump_id_in          : in std_logic;
+            WriteReg_id_in      : in std_logic;
+            ToRegister_id_in    : in std_logic_vector(2 downto 0);
+            StoreSel_id_in      : in std_logic;
+
+            clk                 : in std_logic;
+            rst                 : in std_logic;
+            enable              : in std_logic;
+
+            -- Outputs to EX stage
+            instruction_ex_out  : out std_logic_vector(31 downto 0);
+            PC_ex_out           : out std_logic_vector(31 downto 0);
+            regData1_ex_out     : out std_logic_vector(31 downto 0);
+            regData2_ex_out     : out std_logic_vector(31 downto 0);
+            immediate_ex_out    : out std_logic_vector(31 downto 0);
+
+            ALUOp_ex_out        : out std_logic_vector(2 downto 0);
+            ALUSrc_ex_out       : out std_logic;
+            Branch_ex_out       : out std_logic_vector(2 downto 0);
+            MemWrite_ex_out     : out std_logic;
+            Jump_ex_out         : out std_logic;
+            WriteReg_ex_out     : out std_logic;
+            ToRegister_ex_out   : out std_logic_vector(2 downto 0);
+            StoreSel_ex_out     : out std_logic
+        );
+    end component;
     
     signal PCOut_IF_ID, PCOutPlus_IF_ID     : std_logic_vector(31 downto 0);    --data out from PC register
     signal PCOut, PCOutPlus     : std_logic_vector(31 downto 0);    --data out from PC register
@@ -174,6 +215,26 @@ architecture arch_DataPath of DataPath is
     signal newAddress           : std_logic_vector(31 downto 0);
     signal shifted              : std_logic_vector(31 downto 0);
     signal result_MUL           : std_logic_vector(63 downto 0);
+
+    -- Signals for ID_EX outputs (pipelined values)
+    signal instruction_ex       : std_logic_vector(31 downto 0);
+    signal PC_ex                : std_logic_vector(31 downto 0);
+    signal regData1_ex          : std_logic_vector(31 downto 0);
+    signal regData2_ex          : std_logic_vector(31 downto 0);
+    signal immediate_ex         : std_logic_vector(31 downto 0);
+
+    signal ALUOp_ex             : std_logic_vector(2 downto 0);
+    signal ALUSrc_ex            : std_logic;
+    signal Branch_ex            : std_logic_vector(2 downto 0);
+    signal MemWrite_ex          : std_logic;
+    signal Jump_ex              : std_logic;
+    signal WriteReg_ex          : std_logic;
+    signal ToRegister_ex        : std_logic_vector(2 downto 0);
+    signal StoreSel_ex          : std_logic;
+
+    -- EX stage local op2 (computed from pipelined signals)
+    signal op2_ex               : std_logic_vector(31 downto 0);
+
 begin
 -- ============================================================
 -- ================         IF STAGE         ===================
@@ -191,7 +252,8 @@ ROM: Instruction_Mem port map (
     instruction => instruction_To_IF_ID
 );
 
-PCOutPlus <= PCOut_IF_ID + 4;
+-- use the PC value that comes out of IF/ID (PCOut) as basis for PC+4
+PCOutPlus <= PCOut + 4;
 
 -- Next PC selection (PC+4 or branch target)
 Mux3: Mux port map (
@@ -200,6 +262,11 @@ Mux3: Mux port map (
     selector => PCSrc,
     muxOut   => PCIn
 );
+
+
+-- ============================================================
+-- ================      IF_ID pipeline register    ==========
+-- ============================================================
 
 -- IF/ID pipeline register
 IF_ID_REG: if_id port map (
@@ -241,7 +308,7 @@ Imm: Immediate_Generator port map (
 -- Register file read
 RFILE: Reg_File port map (
     clk        => clk,
-    writeReg   => writeReg,
+    writeReg   => writeReg,   -- writeReg still driven by control here (WB timing not inserted)
     sourceReg1 => instruction(19 downto 15),
     sourceReg2 => instruction(24 downto 20),
     destinyReg => instruction(11 downto 7),
@@ -250,64 +317,112 @@ RFILE: Reg_File port map (
     readData2  => regData2
 );
 
--- ALU second operand mux (imm or reg)
-Mux0: Mux port map (
-    muxIn0   => immediate,
-    muxIn1   => regData2,
-    selector => ALUSrc,
-    muxOut   => op2
+-- NOTE: ALU second operand selection moved to EX stage (after ID_EX) to pipeline control signals.
+
+
+-- ============================================================
+-- ================      ID_EX pipeline register    ==========
+-- ============================================================
+
+ID_EX_REG: ID_EX port map (
+    -- inputs from ID-stage signals
+    instruction_id_in   => instruction,
+    PC_id_in            => PCOut,
+    regData1_id_in      => regData1,
+    regData2_id_in      => regData2,
+    immediate_id_in     => immediate,
+
+    ALUOp_id_in         => ALUOp,
+    ALUSrc_id_in        => ALUSrc,
+    Branch_id_in        => Branch,
+    MemWrite_id_in      => memWrite,
+    Jump_id_in          => jump,
+    WriteReg_id_in      => writeReg,
+    ToRegister_id_in    => toRegister,
+    StoreSel_id_in      => StoreSel,
+
+    clk                 => clk,
+    rst                 => rst,
+    enable              => '1',
+
+    -- outputs to EX stage
+    instruction_ex_out  => instruction_ex,
+    PC_ex_out           => PC_ex,
+    regData1_ex_out     => regData1_ex,
+    regData2_ex_out     => regData2_ex,
+    immediate_ex_out    => immediate_ex,
+
+    ALUOp_ex_out        => ALUOp_ex,
+    ALUSrc_ex_out       => ALUSrc_ex,
+    Branch_ex_out       => Branch_ex,
+    MemWrite_ex_out     => MemWrite_ex,
+    Jump_ex_out         => Jump_ex,
+    WriteReg_ex_out     => WriteReg_ex,
+    ToRegister_ex_out   => ToRegister_ex,
+    StoreSel_ex_out     => StoreSel_ex
 );
 
 
 -- ============================================================
--- ================         EX STAGE         ===================
+-- ================         EX STAGE (pipelined)   ===========
 -- ============================================================
 
--- ALU
+-- compute op2 in EX using pipelined immediate/regData2 and ALUSrc control
+Mux0_EX: Mux port map (
+    muxIn0   => immediate_ex,
+    muxIn1   => regData2_ex,
+    selector => ALUSrc_ex,
+    muxOut   => op2_ex
+);
+
+-- ALU uses pipelined regData1_ex and op2_ex and pipelined ALUOp_ex
 ALU: ALU_RV32 port map (
-    operator1 => regData1,
-    operator2 => op2,
-    ALUOp     => ALUOp,
+    operator1 => regData1_ex,
+    operator2 => op2_ex,
+    ALUOp     => ALUOp_ex,
     result    => result,
     zero      => zero,
     carryOut  => carry,
     signo     => signo
 );
 
--- Multiplier
+-- Multiplier (still uses pipelined operands)
 MUL: multiplier port map (
-    operator1 => regData1,
-    operator2 => op2,
+    operator1 => regData1_ex,
+    operator2 => op2_ex,
     product   => result_MUL
 );
 
--- Store byte/word mux
+-- Store byte/word mux uses pipelined regData2_ex
 Mux1: Mux port map (
-    muxIn0   => regData2,
+    muxIn0   => regData2_ex,
     muxIn1   => regData2Anded,
-    selector => StoreSel,
+    selector => StoreSel_ex,
     muxOut   => dataIn
 );
 
--- Branch control
+-- Branch control uses pipelined Branch_ex
 BRControl: Branch_Control port map (
-    branch => Branch,
+    branch => Branch_ex,
     signo  => signo,
     zero   => zero,
     PCSrc  => PCSrc
 );
 
--- Jump or branch offset
+-- Jump or branch offset selection uses pipelined immediate_ex and Jump_ex
 Mux2: Mux port map (
-    muxIn0   => immediate,
+    muxIn0   => immediate_ex,
     muxIn1   => result,
-    selector => jump,
+    selector => Jump_ex,
     muxOut   => offset
 );
 
-regData2Anded <= regData2 and X"000000FF";
+-- regData2Anded should use pipelined regData2_ex
+regData2Anded <= regData2_ex and X"000000FF";
+
+-- shift offset and compute new address using pipelined PC_ex
 shifted       <= offset(30 downto 0) & '0';
-newAddress    <= PCOut + shifted;
+newAddress    <= PC_ex + shifted;
 
 
 -- ============================================================
@@ -316,7 +431,7 @@ newAddress    <= PCOut + shifted;
 
 RAM: Data_Mem port map (
     clk     => clk,
-    writeEn => memWrite,
+    writeEn => MemWrite_ex,
     Address => result(3 downto 0),
     dataIn  => dataIn,
     dataOut => dataOut
@@ -331,12 +446,12 @@ MuxReg: Mux_ToRegFile port map (
     muxIn0 => result,                    -- ALU
     muxIn1 => dataOut,                   -- LB
     muxIn2 => dataOut,                   -- LW
-    muxIn3 => PCOut,                     -- PC
+    muxIn3 => PC_ex,                     -- PC (pipelined)
     muxIn4 => (others => '0'),           -- MULT old? (unused)
-    muxIn5 => PCOutPlus,                 -- PC+4
+    muxIn5 => PC_ex,                 -- PC+4 (pipelined) --TODO
     muxIn6 => result_MUL(31 downto 0),   -- MUL low
     muxIn7 => result_MUL(63 downto 32),  -- MUL high
-    selector => toRegister,
+    selector => ToRegister_ex,
     muxOut   => dataForReg
 );
 
@@ -346,6 +461,5 @@ MuxReg: Mux_ToRegFile port map (
 -- ============================================================
 
 ALU_result <= result;
-
 
 end architecture arch_DataPath;
