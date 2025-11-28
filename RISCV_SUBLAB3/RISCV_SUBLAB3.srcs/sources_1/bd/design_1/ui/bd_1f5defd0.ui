@@ -1,18 +1,12 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.89313",
-   "Default View_TopLeft":"-225,-224",
+   "Default View_ScaleFactor":"1.5",
+   "Default View_TopLeft":"-391,-123",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.8.0 2024-04-26 e1825d835c VDI=44 GEI=38 GUI=JA:21.0 threadsafe
 #  -string -flagsOSRD
-preplace inst PC_0 -pg 1 -lvl 1 -x 80 -y 130 -defaultsOSRD
-preplace inst Instruction_Mem_0 -pg 1 -lvl 4 -x 740 -y 140 -defaultsOSRD
-preplace inst c_addsub_0 -pg 1 -lvl 3 -x 500 -y -100 -defaultsOSRD
-preplace inst xlconstant_0 -pg 1 -lvl 2 -x 310 -y -50 -defaultsOSRD
-preplace netloc PC_0_PCOut 1 1 2 210 -130 N
-preplace netloc xlconstant_0_dout 1 2 1 410 -110n
 levelinfo -pg 1 -70 80 310 500 740 890
 pagesize -pg 1 -db -bbox -sgen -70 -190 890 220
 "
 }
-
+0
