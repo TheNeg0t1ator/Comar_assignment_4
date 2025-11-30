@@ -414,9 +414,9 @@ architecture arch_DataPath of DataPath is
     signal reg_write_wb_out    : std_logic;
 
     signal data_For_RegFile : std_logic_vector(31 downto 0);
-
+    signal branch_RST :std_logic;
 begin
-
+branch_RST <= rst or PCSrc;
 -- ===================== IF STAGE =====================
 PCount: PC port map (
     clk   => clk,
@@ -444,7 +444,7 @@ IF_ID_REG: if_id port map (
     instruction_if_in  => instruction_To_IF_ID,
     PC_if_in           => PCOut_IF_ID,
     clk                => clk,
-    rst                => rst,
+    rst                => branch_RST,
     enable             => '1',
     instruction_id_out => instruction,
     PC_id_out          => PCOut
@@ -533,7 +533,7 @@ ForwardingUnit: Forwarding_unit port map (
 -- ===================== ID_EX =====================
 ID_EX_REG: ID_EX port map (
     clk                 => clk,
-    rst                 => rst,
+    rst                 => branch_RST,
     enable              => '1',
     -- inputs to EX stage
     immediate_id_in     => immediate_id_in,
