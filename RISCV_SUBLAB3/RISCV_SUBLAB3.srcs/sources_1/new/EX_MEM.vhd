@@ -47,6 +47,7 @@ port (
             MUL_result_ex_in        : in std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
             rd_ex_in                : in std_logic_vector(4 downto 0);
             reg_write_ex_in         : in std_logic;
+            IsValidRD_ex_in        : in std_logic;
 
         -- Outputs to MEM stage
             ALU_result_ex_out       : out std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
@@ -58,7 +59,8 @@ port (
             pc_ex_out               : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
             MUL_result_ex_out       : out std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7) 
             rd_ex_out               : out std_logic_vector(4 downto 0);
-            reg_write_ex_out        : out std_logic
+            reg_write_ex_out        : out std_logic;
+            IsValidRD_ex_out        : out std_logic
     );
 end EX_MEM;
 
@@ -79,6 +81,7 @@ begin
                     MUL_result_ex_out       <= (others => '0');
                     rd_ex_out               <= (others => '0');
                     reg_write_ex_out        <= '0';
+                    IsValidRD_ex_out        <= '0';
                 else
                 if enable = '1' then
                 -- Outputs to MEM stage
@@ -92,6 +95,7 @@ begin
                     MUL_result_ex_out       <= MUL_result_ex_in;
                     rd_ex_out               <= rd_ex_in;
                     reg_write_ex_out        <= reg_write_ex_in;
+                    IsValidRD_ex_out        <= IsValidRD_ex_in;
                 end if;
             end if;
         end if;

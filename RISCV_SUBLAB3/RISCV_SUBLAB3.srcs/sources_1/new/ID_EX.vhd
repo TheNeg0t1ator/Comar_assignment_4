@@ -56,6 +56,7 @@ port (
         pc_id_in           : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
         rd_id_in           : in std_logic_vector(4 downto 0);
         reg_write_id_in    : in std_logic;
+        IsValidRD_id_in    : in std_logic;
         -- Outputs to EX stage
         immediate_id_out    : out std_logic_vector(31 downto 0);
         --MUX0 
@@ -75,7 +76,8 @@ port (
         mux_sell_id_out     : out std_logic_vector(2 downto 0);
         pc_id_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
         rd_id_out           : out std_logic_vector(4 downto 0);
-        reg_write_id_out    : out std_logic
+        reg_write_id_out    : out std_logic;
+        IsValidRD_id_out    : out std_logic
     );
 end ID_EX;
 
@@ -105,6 +107,7 @@ begin
                 pc_id_out               <= (others => '0');
                 rd_id_out               <= (others => '0');
                 reg_write_id_out        <= '0';
+                IsValidRD_id_out        <= '0';
 
             else
                 if enable = '1' then
@@ -127,6 +130,7 @@ begin
                     pc_id_out               <= pc_id_in;
                     rd_id_out               <= rd_id_in;
                     reg_write_id_out        <= reg_write_id_in;
+                    IsValidRD_id_out        <= IsValidRD_id_in;
                 end if;
             end if;
         end if;

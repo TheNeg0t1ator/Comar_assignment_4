@@ -129,7 +129,8 @@ architecture arch_DataPath of DataPath is
             ALUOp       : out std_logic_vector(2 downto 0);
             StoreSel    : out std_logic;
             ALUSrc      : out std_logic;
-            WriteReg    : out std_logic
+            WriteReg    : out std_logic;
+            IsValidRD   : out std_logic
         );
     end component;
 
@@ -179,6 +180,7 @@ architecture arch_DataPath of DataPath is
             pc_id_in           : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
             rd_id_in           : in std_logic_vector(4 downto 0);
             reg_write_id_in    : in std_logic;
+            IsValidRD_id_in    : in std_logic;
             -- Outputs to EX stage
             immediate_id_out    : out std_logic_vector(31 downto 0);
             --MUX0
@@ -198,7 +200,8 @@ architecture arch_DataPath of DataPath is
             mux_sell_id_out     : out std_logic_vector(2 downto 0);
             pc_id_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
             rd_id_out           : out std_logic_vector(4 downto 0);
-            reg_write_id_out    : out std_logic
+            reg_write_id_out    : out std_logic;
+            IsValidRD_id_out    : out std_logic
         );
     end component;
 
@@ -218,6 +221,7 @@ architecture arch_DataPath of DataPath is
                 MUL_result_ex_in        : in std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
                 rd_ex_in                : in std_logic_vector(4 downto 0);
                 reg_write_ex_in         : in std_logic;
+                IsValidRD_ex_in        : in std_logic;
 
             -- Outputs to MEM stage
                 ALU_result_ex_out       : out std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
@@ -229,7 +233,8 @@ architecture arch_DataPath of DataPath is
                 pc_ex_out               : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
                 MUL_result_ex_out       : out std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
                 rd_ex_out               : out std_logic_vector(4 downto 0);
-                reg_write_ex_out        : out std_logic
+                reg_write_ex_out        : out std_logic;
+                IsValidRD_ex_out        : out std_logic
         );
     end component;
 
@@ -264,6 +269,33 @@ architecture arch_DataPath of DataPath is
         );
     end component;
 
+
+    component Mux_rfile1
+      Port ( 
+        rdata_regfile  : in  std_logic_vector(31 downto 0);
+        EX_ALU_RESULT   : in  std_logic_vector(31 downto 0);
+        EX_MUL_RESULT   : in  std_logic_vector(31 downto 0);
+        EX_MULH_RESULT  : in  std_logic_vector(31 downto 0);
+        MEM_ALU_RESULT  : in  std_logic_vector(31 downto 0);
+        MEM_MUL_RESULT  : in  std_logic_vector(31 downto 0);
+        MEM_MULH_RESULT : in  std_logic_vector(31 downto 0);
+        Rdata_id_in    : out std_logic_vector(31 downto 0);
+        selector        : in  std_logic_vector(2 downto 0)
+      );
+    end component;
+
+    component Forwarding_unit
+        Port ( 
+            Regfile_Selector1, Regfile_Selector2    : out std_logic_vector(2 downto 0);
+            Input_select_ex,Input_select_mem        : in std_logic_vector(2 downto 0);
+            RD_ex, RD_mem                           : in std_logic_vector(4 downto 0);
+            SourceReg1_id, SourceReg2_id            : in std_logic_vector(4 downto 0);
+            Valid_rd_ex, Valid_rd_mem               : in std_logic
+        );
+     end component;
+
+    
+
 -- ===================== Signals =====================
     signal PCOut_IF_ID, PCOutPlus_IF_ID, PCOut, PCOutPlus : std_logic_vector(31 downto 0);
     signal instruction_To_IF_ID, instruction : std_logic_vector(31 downto 0);
@@ -275,27 +307,36 @@ architecture arch_DataPath of DataPath is
     signal offset       : std_logic_vector(31 downto 0);
     signal shifted      : std_logic_vector(31 downto 0);
 
+-- ID stage
+
+    signal regdata1_MUX, regdata2_MUX : std_logic_vector(31 downto 0);
+
+-- forward
+    signal Regfile_Selector_signal1, Regfile_Selector_signal2 : std_logic_vector(2 downto 0);
+    signal Valid_rd_mem_signal : std_logic;
+
 -- ID-EX reg
     -- inputs to EX stage
-    signal immediate_id_in    : std_logic_vector(31 downto 0);
+    signal immediate_id_in     : std_logic_vector(31 downto 0);
     --MUX0
-    signal ALUSrc_id_in       : std_logic;
+    signal ALUSrc_id_in        : std_logic;
     --MUX1
-    signal StoreSel_id_in     : std_logic;
+    signal StoreSel_id_in      : std_logic;
     --MUX2
-    signal Jump_id_in         : std_logic;
+    signal Jump_id_in          : std_logic;
     --Branch-Control
-    signal Branch_id_in       : std_logic_vector(2 downto 0);
+    signal Branch_id_in        : std_logic_vector(2 downto 0);
     --ALU
-    signal ALUOp_id_in        : std_logic_vector(2 downto 0);
-    signal regData1_id_in     : std_logic_vector(31 downto 0);
-    signal regData2_id_in     : std_logic_vector(31 downto 0);
+    signal ALUOp_id_in         : std_logic_vector(2 downto 0);
+    signal regData1_id_in      : std_logic_vector(31 downto 0);
+    signal regData2_id_in      : std_logic_vector(31 downto 0);
     --EX-MEM
-    signal mem_write_en_id_in :  std_logic;
-    signal mux_sell_id_in     : std_logic_vector(2 downto 0);
-    signal pc_id_in           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-    signal rd_id_in           : std_logic_vector(4 downto 0);
-    signal reg_write_id_in    : std_logic;
+    signal mem_write_en_id_in  :  std_logic;
+    signal mux_sell_id_in      : std_logic_vector(2 downto 0);
+    signal pc_id_in            : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+    signal rd_id_in            : std_logic_vector(4 downto 0);
+    signal reg_write_id_in     : std_logic;
+    signal IsValidRD_id_in_sig : std_logic;
     -- Outputs to EX stage
     signal immediate_id_out    : std_logic_vector(31 downto 0);
     --MUX0
@@ -316,6 +357,7 @@ architecture arch_DataPath of DataPath is
     signal pc_id_out           : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
     signal rd_id_out           : std_logic_vector(4 downto 0);
     signal reg_write_id_out    : std_logic;
+    signal IsValidRD_id_out_sig : std_logic;
 
 -- EX
     --MUX0
@@ -414,7 +456,8 @@ Ctrl: Control port map (
     StoreSel    => StoreSel_id_in,
     ALUSrc      => ALUSrc_id_in,
     WriteReg    => reg_write_id_in,
-    ToRegister  => mux_sell_id_in
+    ToRegister  => mux_sell_id_in,
+    IsValidRD   => IsValidRD_id_in_sig
 );
 
 Imm: Immediate_Generator port map (
@@ -429,8 +472,47 @@ RFILE: Reg_File port map (
     sourceReg2 => instruction(24 downto 20),
     destinyReg => rd_wb_out,
     data       => data_For_RegFile,
-    readData1  => regData1_id_in,
-    readData2  => regData2_id_in
+    readData1  => regdata1_MUX,
+    readData2  => regdata2_MUX
+);
+
+mux_rfile1_inst1: Mux_rfile1 port map (
+    rdata_regfile  => regdata1_MUX,
+    EX_ALU_RESULT   => ALU_result_ex_in,
+    EX_MUL_RESULT   => MUL_result_ex_in (31 downto 0),
+    EX_MULH_RESULT  => MUL_result_ex_in (63 downto 32),
+    MEM_ALU_RESULT  => ALU_result_ex_out,
+    MEM_MUL_RESULT  => MUL_result_wb_in (31 downto 0),
+    MEM_MULH_RESULT => MUL_result_wb_in (63 downto 32),
+    Rdata_id_in    => regData1_id_in,
+    selector        => Regfile_Selector_signal1
+);
+
+mux_rfile1_inst2: Mux_rfile1 port map (
+    rdata_regfile  => regdata2_MUX,
+    EX_ALU_RESULT   => ALU_result_ex_in,
+    EX_MUL_RESULT   => MUL_result_ex_in (31 downto 0),
+    EX_MULH_RESULT  => MUL_result_ex_in (63 downto 32),
+    MEM_ALU_RESULT  => ALU_result_ex_out,
+    MEM_MUL_RESULT  => MUL_result_wb_in (31 downto 0),
+    MEM_MULH_RESULT => MUL_result_wb_in (63 downto 32),
+    Rdata_id_in    => regData2_id_in,
+    selector        => Regfile_Selector_signal2
+);
+
+-- ================== Forwarding ===================
+
+ForwardingUnit: Forwarding_unit port map (
+    Regfile_Selector1    => Regfile_Selector_signal1,
+    Regfile_Selector2    => Regfile_Selector_signal2,
+    Input_select_ex      => mux_sell_ex_in,
+    Input_select_mem     => mux_sell_wb_in,
+    RD_ex                => rd_ex_in,
+    RD_mem               => rd_wb_in,
+    SourceReg1_id        => instruction(19 downto 15),
+    SourceReg2_id        => instruction(24 downto 20),
+    Valid_rd_ex         => IsValidRD_id_out_sig,
+    Valid_rd_mem        => Valid_rd_mem_signal
 );
 
 -- ===================== ID_EX =====================
@@ -458,6 +540,7 @@ ID_EX_REG: ID_EX port map (
     pc_id_in            => PCOut,
     rd_id_in            => instruction(11 downto 7),
     reg_write_id_in     => reg_write_id_in,
+    IsValidRD_id_in     => IsValidRD_id_in_sig,
     -- Outputs to EX stage
     immediate_id_out    => immediate_id_out,
     --MUX0
@@ -477,7 +560,8 @@ ID_EX_REG: ID_EX port map (
     mux_sell_id_out     => mux_sell_ex_in,
     pc_id_out           => pc_ex_in,
     rd_id_out           => rd_ex_in,
-    reg_write_id_out    => reg_write_ex_in
+    reg_write_id_out    => reg_write_ex_in,
+    IsValidRD_id_out    => IsValidRD_id_out_sig
 );
 
 -- ===================== EX STAGE =====================
@@ -545,6 +629,7 @@ EX_MEM_REG: EX_MEM port map (
         MUL_result_ex_in        => MUL_result_ex_in,
         rd_ex_in                => rd_ex_in,
         reg_write_ex_in         => reg_write_ex_in,
+        IsValidRD_ex_in         => IsValidRD_id_out_sig,
 
     -- Outputs to MEM stage
         ALU_result_ex_out       => ALU_result_ex_out,
@@ -556,7 +641,8 @@ EX_MEM_REG: EX_MEM port map (
         pc_ex_out               => pc_wb_in,
         MUL_result_ex_out       => MUL_result_wb_in,
         rd_ex_out               => rd_wb_in,
-        reg_write_ex_out        => reg_write_wb_in
+        reg_write_ex_out        => reg_write_wb_in,
+        IsValidRD_ex_out        => Valid_rd_mem_signal
 );
 
 -- ===================== MEM STAGE =====================
