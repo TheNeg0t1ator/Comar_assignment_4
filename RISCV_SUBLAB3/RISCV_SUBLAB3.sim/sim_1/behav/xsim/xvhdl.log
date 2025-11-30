@@ -1,4 +1,0 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/kobed/Documents/GitHub/Comar_assignment_4/RISCV_SUBLAB3/RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/DataPath.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'DataPath'
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/kobed/Documents/GitHub/Comar_assignment_4/RISCV_SUBLAB3/RISCV_SUBLAB3.srcs/sim_1/imports/testbenches/DataPath_tb.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'DataPath_tb'

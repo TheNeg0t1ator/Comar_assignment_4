@@ -253,6 +253,7 @@ architecture arch_DataPath of DataPath is
             -- Writing to register File
                 rd_wb_in           : in std_logic_vector(4 downto 0);
                 reg_write_wb_in    : in std_logic;
+                IsValidRD_mem_in   : in std_logic;
 
             -- Outputs to WB stage
             -- MUX
@@ -265,7 +266,8 @@ architecture arch_DataPath of DataPath is
 
             -- Writing to register File
             rd_wb_out           : out std_logic_vector(4 downto 0);
-            reg_write_wb_out    : out std_logic
+            reg_write_wb_out    : out std_logic;
+            IsValidRD_wb_out        : out std_logic
         );
     end component;
 
@@ -279,18 +281,21 @@ architecture arch_DataPath of DataPath is
         MEM_ALU_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_MUL_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_MULH_RESULT : in  std_logic_vector(31 downto 0);
+        WB_ALU_RESULT  : in  std_logic_vector(31 downto 0);
+        WB_MUL_RESULT  : in  std_logic_vector(31 downto 0);
+        WB_MULH_RESULT : in  std_logic_vector(31 downto 0);
         Rdata_id_in    : out std_logic_vector(31 downto 0);
-        selector        : in  std_logic_vector(2 downto 0)
+        selector        : in  std_logic_vector(3 downto 0)
       );
     end component;
 
     component Forwarding_unit
         Port ( 
-            Regfile_Selector1, Regfile_Selector2    : out std_logic_vector(2 downto 0);
-            Input_select_ex,Input_select_mem        : in std_logic_vector(2 downto 0);
-            RD_ex, RD_mem                           : in std_logic_vector(4 downto 0);
-            SourceReg1_id, SourceReg2_id            : in std_logic_vector(4 downto 0);
-            Valid_rd_ex, Valid_rd_mem               : in std_logic
+            Regfile_Selector1, Regfile_Selector2                    : out std_logic_vector(3 downto 0);
+            Input_select_ex,Input_select_mem,Input_select_wb        : in std_logic_vector(2 downto 0);
+            RD_ex, RD_mem, RD_wb                                    : in std_logic_vector(4 downto 0);
+            SourceReg1_id, SourceReg2_id                            : in std_logic_vector(4 downto 0);
+            Valid_rd_ex, Valid_rd_mem, Valid_rd_wb                  : in std_logic
         );
      end component;
 
@@ -312,8 +317,9 @@ architecture arch_DataPath of DataPath is
     signal regdata1_MUX, regdata2_MUX : std_logic_vector(31 downto 0);
 
 -- forward
-    signal Regfile_Selector_signal1, Regfile_Selector_signal2 : std_logic_vector(2 downto 0);
+    signal Regfile_Selector_signal1, Regfile_Selector_signal2 : std_logic_vector(3 downto 0);
     signal Valid_rd_mem_signal : std_logic;
+    signal Valid_rd_WB_signal : std_logic;
 
 -- ID-EX reg
     -- inputs to EX stage
@@ -478,26 +484,32 @@ RFILE: Reg_File port map (
 
 mux_rfile1_inst1: Mux_rfile1 port map (
     rdata_regfile  => regdata1_MUX,
-    EX_ALU_RESULT   => ALU_result_ex_out,--done
-    EX_MUL_RESULT   => MUL_result_wb_in (31 downto 0),--done
-    EX_MULH_RESULT  => MUL_result_wb_in (63 downto 32),--done
-    MEM_ALU_RESULT  => ALU_result_wb_out,--done
-    MEM_MUL_RESULT  => MUL_result_wb_out (31 downto 0),--done
-    MEM_MULH_RESULT => MUL_result_wb_out (63 downto 32),--done
+    EX_ALU_RESULT   =>  ALU_result_ex_in,--done
+    EX_MUL_RESULT   =>  MUL_result_ex_in (31 downto 0),
+    EX_MULH_RESULT  =>  MUL_result_ex_in (63 downto 32),
+    MEM_ALU_RESULT  =>  ALU_result_ex_out,
+    MEM_MUL_RESULT  =>  MUL_result_wb_in (31 downto 0),
+    MEM_MULH_RESULT =>  MUL_result_wb_in (63 downto 32),
+    WB_ALU_RESULT   =>  ALU_result_wb_out,
+    WB_MUL_RESULT   =>  MUL_result_wb_out (31 downto 0),
+    WB_MULH_RESULT  =>  MUL_result_wb_out (63 downto 32),
     Rdata_id_in    => regData1_id_in,
     selector        => Regfile_Selector_signal1
 );
 
 mux_rfile1_inst2: Mux_rfile1 port map (
     rdata_regfile  => regdata2_MUX,
-    EX_ALU_RESULT   => ALU_result_ex_out,--done
-    EX_MUL_RESULT   => MUL_result_wb_in (31 downto 0),--done
-    EX_MULH_RESULT  => MUL_result_wb_in (63 downto 32),--done
-    MEM_ALU_RESULT  => ALU_result_wb_out, --done
-    MEM_MUL_RESULT  => MUL_result_wb_out (31 downto 0),--done
-    MEM_MULH_RESULT => MUL_result_wb_out (63 downto 32),--done
-    Rdata_id_in    => regData2_id_in,
-    selector        => Regfile_Selector_signal2
+    EX_ALU_RESULT   =>  ALU_result_ex_in,--done
+    EX_MUL_RESULT   =>  MUL_result_ex_in (31 downto 0),
+    EX_MULH_RESULT  =>  MUL_result_ex_in (63 downto 32),
+    MEM_ALU_RESULT  =>  ALU_result_ex_out,
+    MEM_MUL_RESULT  =>  MUL_result_wb_in (31 downto 0),
+    MEM_MULH_RESULT =>  MUL_result_wb_in (63 downto 32),
+    WB_ALU_RESULT   =>  ALU_result_wb_out,
+    WB_MUL_RESULT   =>  MUL_result_wb_out (31 downto 0),
+    WB_MULH_RESULT  =>  MUL_result_wb_out (63 downto 32),
+    Rdata_id_in     =>  regData2_id_in,
+    selector        =>  Regfile_Selector_signal2
 );
 
 -- ================== Forwarding ===================
@@ -505,14 +517,17 @@ mux_rfile1_inst2: Mux_rfile1 port map (
 ForwardingUnit: Forwarding_unit port map (
     Regfile_Selector1    => Regfile_Selector_signal1,
     Regfile_Selector2    => Regfile_Selector_signal2,
-    Input_select_ex      => mux_sell_wb_in,
-    Input_select_mem     => mux_sell_wb_out,
+    Input_select_ex      => mux_sell_ex_in,
+    Input_select_mem     => mux_sell_wb_in,
+    Input_select_wb      => mux_sell_wb_out,
     RD_ex                => rd_ex_in,
     RD_mem               => rd_wb_in,
+    RD_wb                => rd_wb_out,
     SourceReg1_id        => instruction(19 downto 15),
     SourceReg2_id        => instruction(24 downto 20),
     Valid_rd_ex         => IsValidRD_id_out_sig,
-    Valid_rd_mem        => Valid_rd_mem_signal
+    Valid_rd_mem        => Valid_rd_mem_signal,
+    Valid_rd_wb         => Valid_rd_WB_signal
 );
 
 -- ===================== ID_EX =====================
@@ -669,6 +684,7 @@ MEM_WB_REG: MEM_WB port map (
     -- Writing to register File
          rd_wb_in           => rd_wb_in,
          reg_write_wb_in    => reg_write_wb_in,
+         IsValidRD_mem_in   => Valid_rd_mem_signal,
     -- Outputs to WB stage
     -- MUX
         mux_sell_wb_out     => mux_sell_wb_out,
@@ -678,7 +694,8 @@ MEM_WB_REG: MEM_WB port map (
         MUL_result_wb_out   => MUL_result_wb_out,-- ALU     (MUX6&MUX7)
     -- Writing to register File
         rd_wb_out           => rd_wb_out,
-        reg_write_wb_out    => reg_write_wb_out
+        reg_write_wb_out    => reg_write_wb_out,
+        IsValidRD_wb_out    => Valid_rd_WB_signal
 );
 
 -- ===================== WB STAGE =====================

@@ -46,6 +46,7 @@ entity MEM_WB is
         -- Writing to register File 
             rd_wb_in           : in std_logic_vector(4 downto 0);
             reg_write_wb_in    : in std_logic;
+            IsValidRD_mem_in        : in std_logic;
 
         -- Outputs to WB stage
         -- MUX
@@ -58,7 +59,9 @@ entity MEM_WB is
         
         -- Writing to register File 
         rd_wb_out           : out std_logic_vector(4 downto 0);
-        reg_write_wb_out    : out std_logic
+        reg_write_wb_out    : out std_logic;
+        --wb
+        IsValidRD_wb_out        : out std_logic
     );
 end MEM_WB;
 
@@ -78,6 +81,7 @@ begin
                 MUL_result_wb_out   <= (others => '0');
                 rd_wb_out           <= (others => '0');
                 reg_write_wb_out    <= '0';
+                IsValidRD_wb_out    <= '0';
 
             else
                 if enable = '1' then
@@ -88,6 +92,7 @@ begin
                     MUL_result_wb_out   <= MUL_result_wb_in;
                     rd_wb_out           <= rd_wb_in;
                     reg_write_wb_out    <= reg_write_wb_in;
+                    IsValidRD_wb_out    <= IsValidRD_mem_in;
 
                 end if;
             end if;

@@ -40,8 +40,11 @@ entity Mux_rfile1 is
     MEM_ALU_RESULT  : in  std_logic_vector(31 downto 0);
     MEM_MUL_RESULT  : in  std_logic_vector(31 downto 0);
     MEM_MULH_RESULT : in  std_logic_vector(31 downto 0);
+    WB_ALU_RESULT  : in  std_logic_vector(31 downto 0);
+    WB_MUL_RESULT  : in  std_logic_vector(31 downto 0);
+    WB_MULH_RESULT : in  std_logic_vector(31 downto 0);
     Rdata_id_in    : out std_logic_vector(31 downto 0);
-    selector        : in  std_logic_vector(2 downto 0)
+    selector        : in  std_logic_vector(3 downto 0)
   );
 end Mux_rfile1;
 
@@ -51,13 +54,16 @@ begin
           MEM_ALU_RESULT, MEM_MUL_RESULT, MEM_MULH_RESULT, selector)
   begin
     case selector is
-      when "000" => Rdata_id_in <= rdata_regfile;
-      when "001" => Rdata_id_in <= EX_ALU_RESULT;
-      when "010" => Rdata_id_in <= EX_MUL_RESULT;
-      when "011" => Rdata_id_in <= EX_MULH_RESULT;
-      when "100" => Rdata_id_in <= MEM_ALU_RESULT;
-      when "101" => Rdata_id_in <= MEM_MUL_RESULT;
-      when "110" => Rdata_id_in <= MEM_MULH_RESULT;
+      when "0000" => Rdata_id_in <= rdata_regfile;
+      when "0001" => Rdata_id_in <= EX_ALU_RESULT;
+      when "0010" => Rdata_id_in <= EX_MUL_RESULT;
+      when "0011" => Rdata_id_in <= EX_MULH_RESULT;
+      when "0100" => Rdata_id_in <= MEM_ALU_RESULT;
+      when "0101" => Rdata_id_in <= MEM_MUL_RESULT;
+      when "0110" => Rdata_id_in <= MEM_MULH_RESULT;
+      when "0111" => Rdata_id_in <= WB_ALU_RESULT;
+      when "1001" => Rdata_id_in <= WB_MUL_RESULT;
+      when "1010" => Rdata_id_in <= WB_MULH_RESULT;
       when others => Rdata_id_in <= (others => '0');
     end case;
   end process;
