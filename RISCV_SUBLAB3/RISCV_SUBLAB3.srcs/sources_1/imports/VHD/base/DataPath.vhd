@@ -478,24 +478,24 @@ RFILE: Reg_File port map (
 
 mux_rfile1_inst1: Mux_rfile1 port map (
     rdata_regfile  => regdata1_MUX,
-    EX_ALU_RESULT   => ALU_result_ex_in,
-    EX_MUL_RESULT   => MUL_result_ex_in (31 downto 0),
-    EX_MULH_RESULT  => MUL_result_ex_in (63 downto 32),
-    MEM_ALU_RESULT  => ALU_result_ex_out,
-    MEM_MUL_RESULT  => MUL_result_wb_in (31 downto 0),
-    MEM_MULH_RESULT => MUL_result_wb_in (63 downto 32),
+    EX_ALU_RESULT   => ALU_result_ex_out,--done
+    EX_MUL_RESULT   => MUL_result_wb_in (31 downto 0),--done
+    EX_MULH_RESULT  => MUL_result_wb_in (63 downto 32),--done
+    MEM_ALU_RESULT  => ALU_result_wb_out,--done
+    MEM_MUL_RESULT  => MUL_result_wb_out (31 downto 0),--done
+    MEM_MULH_RESULT => MUL_result_wb_out (63 downto 32),--done
     Rdata_id_in    => regData1_id_in,
     selector        => Regfile_Selector_signal1
 );
 
 mux_rfile1_inst2: Mux_rfile1 port map (
     rdata_regfile  => regdata2_MUX,
-    EX_ALU_RESULT   => ALU_result_ex_in,
-    EX_MUL_RESULT   => MUL_result_ex_in (31 downto 0),
-    EX_MULH_RESULT  => MUL_result_ex_in (63 downto 32),
-    MEM_ALU_RESULT  => ALU_result_ex_out,
-    MEM_MUL_RESULT  => MUL_result_wb_in (31 downto 0),
-    MEM_MULH_RESULT => MUL_result_wb_in (63 downto 32),
+    EX_ALU_RESULT   => ALU_result_ex_out,--done
+    EX_MUL_RESULT   => MUL_result_wb_in (31 downto 0),--done
+    EX_MULH_RESULT  => MUL_result_wb_in (63 downto 32),--done
+    MEM_ALU_RESULT  => ALU_result_wb_out, --done
+    MEM_MUL_RESULT  => MUL_result_wb_out (31 downto 0),--done
+    MEM_MULH_RESULT => MUL_result_wb_out (63 downto 32),--done
     Rdata_id_in    => regData2_id_in,
     selector        => Regfile_Selector_signal2
 );
@@ -505,8 +505,8 @@ mux_rfile1_inst2: Mux_rfile1 port map (
 ForwardingUnit: Forwarding_unit port map (
     Regfile_Selector1    => Regfile_Selector_signal1,
     Regfile_Selector2    => Regfile_Selector_signal2,
-    Input_select_ex      => mux_sell_ex_in,
-    Input_select_mem     => mux_sell_wb_in,
+    Input_select_ex      => mux_sell_wb_in,
+    Input_select_mem     => mux_sell_wb_out,
     RD_ex                => rd_ex_in,
     RD_mem               => rd_wb_in,
     SourceReg1_id        => instruction(19 downto 15),
