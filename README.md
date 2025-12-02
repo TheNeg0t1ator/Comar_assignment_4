@@ -46,3 +46,29 @@ Extended the control logic so that **MUL** and **MULH** opcodes are recognized a
 <img width="1920" height="1032" alt="Image" src="https://github.com/user-attachments/assets/35afbc54-6055-423d-9b07-95e724627e0e" />
 
 # Sublab 3
+
+## VHDL
+
+### 5 Stage Implementation
+To achive a five stage RiscV process the processor was split into diffirent parts with a buffer inbetween these parts consist out of (`IF`,`ID`,`EX`,`MEM`,`WB`). the main benfit is to reduce the critcal path and also run multiple parts of the hardware at once increasing throughput. like this :
+
+<img width="712" height="265" alt="image" src="https://github.com/user-attachments/assets/dc90a6f2-b525-4666-8896-0ed8c309a45f" />
+
+our implementations is: 
+#### IF stage
+<img width="1045" height="131" alt="image" src="https://github.com/user-attachments/assets/dec62696-a8fe-4e3c-90d5-a995788be537" />
+
+#### ID stage
+<img width="1204" height="605" alt="image" src="https://github.com/user-attachments/assets/acedf998-ee0a-4c57-b5a3-ad013fd0e5ab" />
+
+#### EX stage
+<img width="1193" height="476" alt="image" src="https://github.com/user-attachments/assets/e0d3e0b5-0f69-455f-b0fd-539eac72839f" />
+
+#### MEM stage
+<img width="1225" height="668" alt="image" src="https://github.com/user-attachments/assets/2d42f565-2ffd-4c4b-88e9-2c3e09831a2c" />
+
+#### WB stage
+<img width="1224" height="665" alt="image" src="https://github.com/user-attachments/assets/35dd5634-7c9e-4af8-b093-f73017eba1d0" />
+
+> Note this aproche Has some erros, this is due to the architecture and are called Hazards in the next chapter we are going to resolve them.
+
