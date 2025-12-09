@@ -1,19 +1,25 @@
 # compile vhdl design source files
 vhdl xil_defaultlib  \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/ALU_RV32.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Branch_Control.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Control.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/DataPath.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Data_Mem.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/FullAdder.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Immediate_Generator.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Instruction_Mem.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Mux.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Mux_ToRegFile.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/PC.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/base/Reg_File.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sources_1/imports/VHD/multiplier.vhd" \
-"../../../../RISCV_MUL_SUBLAB2.srcs/sim_1/imports/testbenches/DataPath_tb.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/ALU_RV32.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Branch_Control.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Control.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/DataPath.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Data_Mem.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/new/EX_MEM.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/new/Forwarding_unit.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/FullAdder.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/new/ID_EX.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Immediate_Generator.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Instruction_Mem.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/new/MEM_WB.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Mux.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Mux_ToRegFile.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/new/Mux_rfile1.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/PC.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Reg_File.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/if_id.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/multiplier.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sim_1/imports/testbenches/DataPath_tb.vhd" \
 
 # Do not sort compile order
 nosort

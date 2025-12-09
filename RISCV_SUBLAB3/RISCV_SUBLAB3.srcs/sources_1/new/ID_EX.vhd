@@ -33,41 +33,51 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity ID_EX is
 port (
-        -- Inputs from ID stage
-        instruction_id_in   : in std_logic_vector(31 downto 0);
-        PC_id_in            : in std_logic_vector(31 downto 0);
-        regData1_id_in      : in std_logic_vector(31 downto 0);
-        regData2_id_in      : in std_logic_vector(31 downto 0);
-        immediate_id_in     : in std_logic_vector(31 downto 0);
-
-        ALUOp_id_in         : in std_logic_vector(2 downto 0);
-        ALUSrc_id_in        : in std_logic;
-        Branch_id_in        : in std_logic_vector(2 downto 0);
-        MemWrite_id_in      : in std_logic;
-        Jump_id_in          : in std_logic;
-        WriteReg_id_in      : in std_logic;
-        ToRegister_id_in    : in std_logic_vector(2 downto 0);
-        StoreSel_id_in      : in std_logic;
-
         clk                 : in std_logic;
         rst                 : in std_logic;
         enable              : in std_logic;
-
+        -- inputs to EX stage
+        immediate_id_in    : in std_logic_vector(31 downto 0);
+        --MUX0 
+        ALUSrc_id_in       : in std_logic;
+        --MUX1
+        StoreSel_id_in     : in std_logic;
+        --MUX2
+        Jump_id_in         : in std_logic;
+        --Branch-Control
+        Branch_id_in       : in std_logic_vector(2 downto 0);
+        --ALU
+        ALUOp_id_in        : in std_logic_vector(2 downto 0);
+        regData1_id_in     : in std_logic_vector(31 downto 0);
+        regData2_id_in     : in std_logic_vector(31 downto 0);
+        --EX-MEM
+        mem_write_en_id_in : in  std_logic;
+        mux_sell_id_in     : in std_logic_vector(2 downto 0);
+        pc_id_in           : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+        rd_id_in           : in std_logic_vector(4 downto 0);
+        reg_write_id_in    : in std_logic;
+        IsValidRD_id_in    : in std_logic;
         -- Outputs to EX stage
-        instruction_ex_out  : out std_logic_vector(31 downto 0);
-        PC_ex_out           : out std_logic_vector(31 downto 0);
-        regData1_ex_out     : out std_logic_vector(31 downto 0);
-        regData2_ex_out     : out std_logic_vector(31 downto 0);
-        immediate_ex_out    : out std_logic_vector(31 downto 0);
-
-        ALUOp_ex_out        : out std_logic_vector(2 downto 0);
-        ALUSrc_ex_out       : out std_logic;
-        Branch_ex_out       : out std_logic_vector(2 downto 0);
-        MemWrite_ex_out     : out std_logic;
-        Jump_ex_out         : out std_logic;
-        WriteReg_ex_out     : out std_logic;
-        ToRegister_ex_out   : out std_logic_vector(2 downto 0);
-        StoreSel_ex_out     : out std_logic
+        immediate_id_out    : out std_logic_vector(31 downto 0);
+        --MUX0 
+        ALUSrc_id_out       : out std_logic;
+        --MUX1
+        StoreSel_id_out     : out std_logic;
+        --MUX2
+        Jump_id_out         : out std_logic;
+        --Branch-Control
+        Branch_id_out       : out std_logic_vector(2 downto 0);
+        --ALU
+        ALUOp_id_out        : out std_logic_vector(2 downto 0);
+        regData1_id_out     : out std_logic_vector(31 downto 0);
+        regData2_id_out     : out std_logic_vector(31 downto 0);
+        --EX-MEM
+        mem_write_en_id_out : out  std_logic;
+        mux_sell_id_out     : out std_logic_vector(2 downto 0);
+        pc_id_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+        rd_id_out           : out std_logic_vector(4 downto 0);
+        reg_write_id_out    : out std_logic;
+        IsValidRD_id_out    : out std_logic
     );
 end ID_EX;
 
@@ -78,38 +88,49 @@ begin
         if rising_edge(clk) then
             if rst = '0' then
                 -- RESET all signals (flush pipeline)
-                instruction_ex_out <= (others => '0');
-                PC_ex_out          <= (others => '0');
-                regData1_ex_out    <= (others => '0');
-                regData2_ex_out    <= (others => '0');
-                immediate_ex_out   <= (others => '0');
-
-                ALUOp_ex_out       <= (others => '0');
-                ALUSrc_ex_out      <= '0';
-                Branch_ex_out      <= (others => '0');
-                MemWrite_ex_out    <= '0';
-                Jump_ex_out        <= '0';
-                WriteReg_ex_out    <= '0';
-                ToRegister_ex_out  <= (others => '0');
-                StoreSel_ex_out    <= '0';
+                immediate_id_out        <= (others => '0');
+                --MUX0 
+                ALUSrc_id_out           <= '0';
+                --MUX1
+                StoreSel_id_out         <= '0';
+                --MUX2
+                Jump_id_out             <= '0';
+                --Branch-Control
+                Branch_id_out           <= (others => '0');
+                --ALU
+                ALUOp_id_out            <= (others => '0');
+                regData1_id_out         <= (others => '0');
+                regData2_id_out         <= (others => '0');
+                --EX-MEM
+                mem_write_en_id_out     <= '0';
+                mux_sell_id_out         <= (others => '0');
+                pc_id_out               <= (others => '0');
+                rd_id_out               <= (others => '0');
+                reg_write_id_out        <= '0';
+                IsValidRD_id_out        <= '0';
 
             else
                 if enable = '1' then
-                    -- Data and control signals forwarded to EX stage
-                    instruction_ex_out <= instruction_id_in;
-                    PC_ex_out          <= PC_id_in;
-                    regData1_ex_out    <= regData1_id_in;
-                    regData2_ex_out    <= regData2_id_in;
-                    immediate_ex_out   <= immediate_id_in;
-
-                    ALUOp_ex_out       <= ALUOp_id_in;
-                    ALUSrc_ex_out      <= ALUSrc_id_in;
-                    Branch_ex_out      <= Branch_id_in;
-                    MemWrite_ex_out    <= MemWrite_id_in;
-                    Jump_ex_out        <= Jump_id_in;
-                    WriteReg_ex_out    <= WriteReg_id_in;
-                    ToRegister_ex_out  <= ToRegister_id_in;
-                    StoreSel_ex_out    <= StoreSel_id_in;
+                    immediate_id_out        <= immediate_id_in;
+                    --MUX0 
+                    ALUSrc_id_out           <= ALUSrc_id_in;
+                    --MUX1
+                    StoreSel_id_out         <= StoreSel_id_in;
+                    --MUX2
+                    Jump_id_out             <= Jump_id_in;
+                    --Branch-Control
+                    Branch_id_out           <= Branch_id_in;
+                    --ALU
+                    ALUOp_id_out            <= ALUOp_id_in;
+                    regData1_id_out         <= regData1_id_in;
+                    regData2_id_out         <= regData2_id_in;
+                    --EX-MEM
+                    mem_write_en_id_out     <= mem_write_en_id_in;
+                    mux_sell_id_out         <= mux_sell_id_in;
+                    pc_id_out               <= pc_id_in;
+                    rd_id_out               <= rd_id_in;
+                    reg_write_id_out        <= reg_write_id_in;
+                    IsValidRD_id_out        <= IsValidRD_id_in;
                 end if;
             end if;
         end if;
