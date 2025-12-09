@@ -21,7 +21,6 @@ architecture arch_Instruction_Mem of Instruction_Mem is
     
     type ROM_ARRAY is array (0 to 65535) of std_logic_vector(7 downto 0);      --declaring size of memory. 128 elements of 32 bits
     constant ROM : ROM_ARRAY := (
-    "00000000", "00000000", "00000000", "00010011", -- nop
     "00011010", "01000000", "00000010", "10010011", -- li t0, 420
     "00000000", "10100000", "00000100", "00010011", -- li s0, 10
     "00000000", "00000000", "00000000", "00010011", -- nop
@@ -29,6 +28,8 @@ architecture arch_Instruction_Mem of Instruction_Mem is
     "00000000", "01010000", "00100000", "00100011", -- sw t0, 0(x0)
     "00000000", "10000010", "10000010", "10110011", -- add t0, t0, s0
     "00000000", "00000000", "00100010", "10000011", -- lw t0, 0(x0)
+    "00000000", "00000000", "00000000", "00010011", -- nop
+    "00000000", "10000010", "10000010", "10110011", -- add t0, t0, s0
     others => X"00"
     );
 begin

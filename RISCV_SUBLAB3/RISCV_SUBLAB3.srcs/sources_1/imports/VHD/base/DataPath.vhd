@@ -274,17 +274,19 @@ architecture arch_DataPath of DataPath is
 
     component Mux_rfile1
       Port ( 
-        rdata_regfile  : in  std_logic_vector(31 downto 0);
+        rdata_regfile   : in  std_logic_vector(31 downto 0);
         EX_ALU_RESULT   : in  std_logic_vector(31 downto 0);
         EX_MUL_RESULT   : in  std_logic_vector(31 downto 0);
         EX_MULH_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_ALU_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_MUL_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_MULH_RESULT : in  std_logic_vector(31 downto 0);
-        WB_ALU_RESULT  : in  std_logic_vector(31 downto 0);
-        WB_MUL_RESULT  : in  std_logic_vector(31 downto 0);
-        WB_MULH_RESULT : in  std_logic_vector(31 downto 0);
-        Rdata_id_in    : out std_logic_vector(31 downto 0);
+        MEM_LOAD_WORD   : in  std_logic_vector(31 downto 0);
+        WB_ALU_RESULT   : in  std_logic_vector(31 downto 0);
+        WB_MUL_RESULT   : in  std_logic_vector(31 downto 0);
+        WB_MULH_RESULT  : in  std_logic_vector(31 downto 0);
+        WB_LOAD_WORD    : in  std_logic_vector(31 downto 0);
+        Rdata_id_in     : out std_logic_vector(31 downto 0);
         selector        : in  std_logic_vector(3 downto 0)
       );
     end component;
@@ -485,30 +487,34 @@ RFILE: Reg_File port map (
 
 mux_rfile1_inst1: Mux_rfile1 port map (
     rdata_regfile  => regdata1_MUX,
-    EX_ALU_RESULT   =>  ALU_result_ex_in,--done
+    EX_ALU_RESULT   =>  ALU_result_ex_in,
     EX_MUL_RESULT   =>  MUL_result_ex_in (31 downto 0),
     EX_MULH_RESULT  =>  MUL_result_ex_in (63 downto 32),
     MEM_ALU_RESULT  =>  ALU_result_ex_out,
     MEM_MUL_RESULT  =>  MUL_result_wb_in (31 downto 0),
     MEM_MULH_RESULT =>  MUL_result_wb_in (63 downto 32),
+    MEM_LOAD_WORD   =>  mem_data_wb_in,
     WB_ALU_RESULT   =>  ALU_result_wb_out,
     WB_MUL_RESULT   =>  MUL_result_wb_out (31 downto 0),
     WB_MULH_RESULT  =>  MUL_result_wb_out (63 downto 32),
-    Rdata_id_in    => regData1_id_in,
+    WB_LOAD_WORD    =>  mem_data_wb_out,
+    Rdata_id_in     => regData1_id_in,
     selector        => Regfile_Selector_signal1
 );
 
 mux_rfile1_inst2: Mux_rfile1 port map (
     rdata_regfile  => regdata2_MUX,
-    EX_ALU_RESULT   =>  ALU_result_ex_in,--done
+    EX_ALU_RESULT   =>  ALU_result_ex_in,
     EX_MUL_RESULT   =>  MUL_result_ex_in (31 downto 0),
     EX_MULH_RESULT  =>  MUL_result_ex_in (63 downto 32),
     MEM_ALU_RESULT  =>  ALU_result_ex_out,
     MEM_MUL_RESULT  =>  MUL_result_wb_in (31 downto 0),
     MEM_MULH_RESULT =>  MUL_result_wb_in (63 downto 32),
+    MEM_LOAD_WORD   =>  mem_data_wb_in,
     WB_ALU_RESULT   =>  ALU_result_wb_out,
     WB_MUL_RESULT   =>  MUL_result_wb_out (31 downto 0),
     WB_MULH_RESULT  =>  MUL_result_wb_out (63 downto 32),
+    WB_LOAD_WORD    =>  mem_data_wb_out,
     Rdata_id_in     =>  regData2_id_in,
     selector        =>  Regfile_Selector_signal2
 );
