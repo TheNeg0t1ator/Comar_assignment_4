@@ -67,7 +67,7 @@ architecture arch_DataPath of DataPath is
         port (
             clk     :in std_logic;
             writeEn :in std_logic;
-            Address :in std_logic_vector(3 downto 0);
+            Address :in std_logic_vector(7 downto 0);
             dataIn  :in std_logic_vector(31 downto 0);
             dataOut :out std_logic_vector(31 downto 0)
         );
@@ -665,7 +665,7 @@ EX_MEM_REG: EX_MEM port map (
 RAM: Data_Mem port map (
     clk     => clk,
     writeEn => mem_write_en_ex_out,
-    Address => ALU_result_ex_out(3 downto 0),
+    Address => ALU_result_ex_out(7 downto 0),
     dataIn  => mem_write_data_ex_out,
     dataOut => mem_data_wb_in
 );
