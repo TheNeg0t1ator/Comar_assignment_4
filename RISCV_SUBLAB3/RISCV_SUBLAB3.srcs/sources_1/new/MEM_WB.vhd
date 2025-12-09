@@ -71,7 +71,7 @@ begin
 
     process(clk)
     begin
-        if rising_edge(clk) then
+        if Falling_edge(clk) then
 
             if rst = '0' then
                 mux_sell_wb_out     <= (others => '0');

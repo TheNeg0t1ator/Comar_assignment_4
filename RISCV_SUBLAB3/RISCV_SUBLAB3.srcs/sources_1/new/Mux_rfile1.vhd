@@ -66,14 +66,14 @@ begin
       when "0100" => Rdata_id_in <= MEM_ALU_RESULT;
       when "0101" => Rdata_id_in <= MEM_MUL_RESULT;
       when "0110" => Rdata_id_in <= MEM_MULH_RESULT;
-      when "0111" => Rdata_id_in <= WB_ALU_RESULT;
-      when "1001" => Rdata_id_in <= WB_MUL_RESULT;
-      when "1010" => Rdata_id_in <= WB_MULH_RESULT;
+      --when "0111" => Rdata_id_in <= WB_ALU_RESULT;
+      --when "1001" => Rdata_id_in <= WB_MUL_RESULT;
+      --when "1010" => Rdata_id_in <= WB_MULH_RESULT;
       when "1011" => Rdata_id_in <= MEM_LOAD_WORD;
-      when "1100" => Rdata_id_in <= WB_LOAD_WORD;
+      --when "1100" => Rdata_id_in <= WB_LOAD_WORD;
       when "1101" => Rdata_id_in <= MEM_LB ;
-      when "1110" => Rdata_id_in <= WB_LB;
-      when others => Rdata_id_in <= (others => '0');
+      --when "1110" => Rdata_id_in <= WB_LB;
+      when others => Rdata_id_in <= rdata_regfile;
     end case;
   end process;
   --sign extension
