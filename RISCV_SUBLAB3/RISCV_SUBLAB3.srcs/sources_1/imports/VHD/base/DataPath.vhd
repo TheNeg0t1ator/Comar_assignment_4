@@ -382,7 +382,7 @@ architecture arch_DataPath of DataPath is
     --MEM_WB
     signal mux_sell_ex_in          : std_logic_vector(2 downto 0);
     signal pc_ex_in                : std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-    signal MUL_result_ex_in        : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)
+    signal MUL_result_ex_in        : std_logic_vector(63 downto 0); -- ALU     (MUX6&MUX7)                                                    Property of LogicLab
     signal rd_ex_in                : std_logic_vector(4 downto 0);
     signal reg_write_ex_in         : std_logic;
     -- Outputs to MEM stage
@@ -414,9 +414,10 @@ architecture arch_DataPath of DataPath is
     signal reg_write_wb_out    : std_logic;
 
     signal data_For_RegFile : std_logic_vector(31 downto 0);
-    signal branch_RST :std_logic;
+    signal branch_rst :std_logic;
 begin
-branch_RST <= rst or PCSrc;
+--branch_RST <= rst or PCSrc;
+
 -- ===================== IF STAGE =====================
 PCount: PC port map (
     clk   => clk,
@@ -444,7 +445,7 @@ IF_ID_REG: if_id port map (
     instruction_if_in  => instruction_To_IF_ID,
     PC_if_in           => PCOut_IF_ID,
     clk                => clk,
-    rst                => branch_RST,
+    rst                => rst or PCSrc,
     enable             => '1',
     instruction_id_out => instruction,
     PC_id_out          => PCOut
@@ -533,7 +534,7 @@ ForwardingUnit: Forwarding_unit port map (
 -- ===================== ID_EX =====================
 ID_EX_REG: ID_EX port map (
     clk                 => clk,
-    rst                 => branch_RST,
+    rst                 => rst or PCSrc,
     enable              => '1',
     -- inputs to EX stage
     immediate_id_in     => immediate_id_in,
@@ -623,7 +624,7 @@ Mux2: Mux port map (
     selector => Jump_id_out,
     muxOut   => offset
 );
-
+branch_rst <= rst;
 regData2Anded <= regData2_id_out and X"000000FF";
 shifted       <= offset(30 downto 0) & '0';
 newAddress    <= pc_ex_in + shifted;
