@@ -63,17 +63,8 @@ begin
                 when "000" => Regfile_Selector1 <= "0100"; --ALU
                 when "110" => Regfile_Selector1 <= "0101"; --MUL
                 when "111" => Regfile_Selector1 <= "0110"; --MULH
-                when "001" => Regfile_Selector1 <= "1101"; --LB
-                when "010" => Regfile_Selector1 <= "1011"; --LW
-                when others => Regfile_Selector1 <= "0000";
-            end case;
-        elsif (SourceReg1_id = RD_wb) and (SourceReg1_id /= "00000") and (Valid_rd_wb = '1') then -- Result from WB stage need, forward from WB to id
-            case Input_select_wb is
-                when "000" => Regfile_Selector1 <= "0111"; --ALU
-                when "110" => Regfile_Selector1 <= "1001"; --MUL
-                when "111" => Regfile_Selector1 <= "1010"; --MULH
-                when "001" => Regfile_Selector1 <= "1110"; --LB
-                when "010" => Regfile_Selector1 <= "1100"; --LW
+                when "001" => Regfile_Selector1 <= "1000"; --LB
+                when "010" => Regfile_Selector1 <= "0111"; --LW
                 when others => Regfile_Selector1 <= "0000";
             end case;
         end if;
@@ -91,21 +82,11 @@ begin
                 when "000" => Regfile_Selector2 <= "0100"; --ALU
                 when "110" => Regfile_Selector2 <= "0101"; --MUL
                 when "111" => Regfile_Selector2 <= "0110"; --MULH
-                when "001" => Regfile_Selector1 <= "1101"; --LB
-                when "010" => Regfile_Selector1 <= "1011"; --LW
+                when "001" => Regfile_Selector1 <= "1000"; --LB
+                when "010" => Regfile_Selector1 <= "0111"; --LW
                 when others => Regfile_Selector2 <= "0000";
             end case;
-        elsif (SourceReg2_id = RD_wb) and (SourceReg2_id /= "00000") and (Valid_rd_wb = '1') then -- Result from WB stage need, forward from WB to id
-            case Input_select_wb is
-                when "000" => Regfile_Selector1 <= "0111"; --ALU
-                when "110" => Regfile_Selector1 <= "1001"; --MUL
-                when "111" => Regfile_Selector1 <= "1010"; --MULH
-                when "001" => Regfile_Selector1 <= "1110"; --LB
-                when "010" => Regfile_Selector1 <= "1100"; --LW
-                when others => Regfile_Selector1 <= "0000";
-            end case;
         end if;
-        
     end process;
 
 
