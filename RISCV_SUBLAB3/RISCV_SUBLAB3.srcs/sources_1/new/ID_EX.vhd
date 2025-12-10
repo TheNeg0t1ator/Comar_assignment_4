@@ -57,6 +57,11 @@ port (
         rd_id_in           : in std_logic_vector(4 downto 0);
         reg_write_id_in    : in std_logic;
         IsValidRD_id_in    : in std_logic;
+        --memfwd
+        source_reg_id_in1  : in std_logic_vector(4 downto 0);
+        source_reg_id_in2  : in std_logic_vector(4 downto 0);
+        
+
         -- Outputs to EX stage
         immediate_id_out    : out std_logic_vector(31 downto 0);
         --MUX0 
@@ -77,7 +82,10 @@ port (
         pc_id_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
         rd_id_out           : out std_logic_vector(4 downto 0);
         reg_write_id_out    : out std_logic;
-        IsValidRD_id_out    : out std_logic
+        IsValidRD_id_out    : out std_logic;
+        --memfwd
+        source_reg_id_out1   : out std_logic_vector(4 downto 0);
+        source_reg_id_out2   : out std_logic_vector(4 downto 0)
     );
 end ID_EX;
 
@@ -108,6 +116,9 @@ begin
                 rd_id_out               <= (others => '0');
                 reg_write_id_out        <= '0';
                 IsValidRD_id_out        <= '0';
+                --memfwd
+                source_reg_id_out1      <= (others => '0');
+                source_reg_id_out2      <= (others => '0');
 
             else
                 if enable = '1' then
@@ -131,6 +142,9 @@ begin
                     rd_id_out               <= rd_id_in;
                     reg_write_id_out        <= reg_write_id_in;
                     IsValidRD_id_out        <= IsValidRD_id_in;
+                    --memfwd
+                    source_reg_id_out1      <= source_reg_id_in1;
+                    source_reg_id_out2      <= source_reg_id_in2;
                 end if;
             end if;
         end if;
