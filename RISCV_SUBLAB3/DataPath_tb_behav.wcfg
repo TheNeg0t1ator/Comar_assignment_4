@@ -11,431 +11,520 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="471.001 ns"></ZoomEndTime>
-      <Cursor1Time time="21,000.000 ns"></Cursor1Time>
+      <ZoomEndTime time="1,242.029 ns"></ZoomEndTime>
+      <Cursor1Time time="1,000.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="196"></NameColumnWidth>
-      <ValueColumnWidth column_width="123"></ValueColumnWidth>
+      <ValueColumnWidth column_width="119"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="88" />
-   <wvobject fp_name="/DataPath_tb/clk" type="logic">
+   <WVObjectSize size="81" />
+   <wvobject type="logic" fp_name="/DataPath_tb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/rst" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/clk_period" type="other">
+   <wvobject type="other" fp_name="/DataPath_tb/clk_period">
       <obj_property name="ElementShortName">clk_period</obj_property>
       <obj_property name="ObjectShortName">clk_period</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/RFILE/registers[9]" type="array">
-      <obj_property name="ElementShortName">[9][31:0]</obj_property>
-      <obj_property name="ObjectShortName">[9][31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/RFILE/registers[8]" type="array">
-      <obj_property name="ElementShortName">[8][31:0]</obj_property>
-      <obj_property name="ObjectShortName">[8][31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/PCount/PCOut" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/PCount/PCOut">
       <obj_property name="ElementShortName">PCOut[31:0]</obj_property>
       <obj_property name="ObjectShortName">PCOut[31:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ALU/result" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers">
+      <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">registers[0:31][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[0]">
+         <obj_property name="ElementShortName">[0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[1]">
+         <obj_property name="ElementShortName">[1][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[2]">
+         <obj_property name="ElementShortName">[2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[3]">
+         <obj_property name="ElementShortName">[3][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[4]">
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[5]">
+         <obj_property name="ElementShortName">[5][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[6]">
+         <obj_property name="ElementShortName">[6][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[7]">
+         <obj_property name="ElementShortName">[7][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[8]">
+         <obj_property name="ElementShortName">[8][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[9]">
+         <obj_property name="ElementShortName">[9][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[9][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[10]">
+         <obj_property name="ElementShortName">[10][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[11]">
+         <obj_property name="ElementShortName">[11][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[12]">
+         <obj_property name="ElementShortName">[12][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[13]">
+         <obj_property name="ElementShortName">[13][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[14]">
+         <obj_property name="ElementShortName">[14][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[14][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[15]">
+         <obj_property name="ElementShortName">[15][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[15][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[16]">
+         <obj_property name="ElementShortName">[16][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[16][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[17]">
+         <obj_property name="ElementShortName">[17][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[17][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[18]">
+         <obj_property name="ElementShortName">[18][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[18][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[19]">
+         <obj_property name="ElementShortName">[19][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[19][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[20]">
+         <obj_property name="ElementShortName">[20][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[20][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[21]">
+         <obj_property name="ElementShortName">[21][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[21][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[22]">
+         <obj_property name="ElementShortName">[22][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[22][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[23]">
+         <obj_property name="ElementShortName">[23][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[23][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[24]">
+         <obj_property name="ElementShortName">[24][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[24][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[25]">
+         <obj_property name="ElementShortName">[25][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[25][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[26]">
+         <obj_property name="ElementShortName">[26][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[26][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[27]">
+         <obj_property name="ElementShortName">[27][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[27][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[28]">
+         <obj_property name="ElementShortName">[28][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[28][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[29]">
+         <obj_property name="ElementShortName">[29][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[29][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[30]">
+         <obj_property name="ElementShortName">[30][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[30][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[31]">
+         <obj_property name="ElementShortName">[31][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[31][31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ALU/result">
       <obj_property name="ElementShortName">result[31:0]</obj_property>
       <obj_property name="ObjectShortName">result[31:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/MUL/product" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/MUL/product">
       <obj_property name="ElementShortName">product[63:0]</obj_property>
       <obj_property name="ObjectShortName">product[63:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ALU/operator1" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ALU/operator1">
       <obj_property name="ElementShortName">operator1[31:0]</obj_property>
       <obj_property name="ObjectShortName">operator1[31:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ALU/operator2" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ALU/operator2">
       <obj_property name="ElementShortName">operator2[31:0]</obj_property>
       <obj_property name="ObjectShortName">operator2[31:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/RD_ex" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/RD_ex">
       <obj_property name="ElementShortName">RD_ex[4:0]</obj_property>
       <obj_property name="ObjectShortName">RD_ex[4:0]</obj_property>
       <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/RD_mem" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/RD_mem">
       <obj_property name="ElementShortName">RD_mem[4:0]</obj_property>
       <obj_property name="ObjectShortName">RD_mem[4:0]</obj_property>
       <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/RD_wb" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/RD_wb">
       <obj_property name="ElementShortName">RD_wb[4:0]</obj_property>
       <obj_property name="ObjectShortName">RD_wb[4:0]</obj_property>
       <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/SourceReg1_id" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/SourceReg1_id">
       <obj_property name="ElementShortName">SourceReg1_id[4:0]</obj_property>
       <obj_property name="ObjectShortName">SourceReg1_id[4:0]</obj_property>
       <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/SourceReg2_id" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/SourceReg2_id">
       <obj_property name="ElementShortName">SourceReg2_id[4:0]</obj_property>
       <obj_property name="ObjectShortName">SourceReg2_id[4:0]</obj_property>
       <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Valid_rd_ex" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ForwardingUnit/Valid_rd_ex">
       <obj_property name="ElementShortName">Valid_rd_ex</obj_property>
       <obj_property name="ObjectShortName">Valid_rd_ex</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Valid_rd_mem" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ForwardingUnit/Valid_rd_mem">
       <obj_property name="ElementShortName">Valid_rd_mem</obj_property>
       <obj_property name="ObjectShortName">Valid_rd_mem</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Valid_rd_wb" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ForwardingUnit/Valid_rd_wb">
       <obj_property name="ElementShortName">Valid_rd_wb</obj_property>
       <obj_property name="ObjectShortName">Valid_rd_wb</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Regfile_Selector2" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/Regfile_Selector2">
       <obj_property name="ElementShortName">Regfile_Selector2[3:0]</obj_property>
       <obj_property name="ObjectShortName">Regfile_Selector2[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Input_select_ex" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/Input_select_ex">
       <obj_property name="ElementShortName">Input_select_ex[2:0]</obj_property>
       <obj_property name="ObjectShortName">Input_select_ex[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Input_select_mem" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/Input_select_mem">
       <obj_property name="ElementShortName">Input_select_mem[2:0]</obj_property>
       <obj_property name="ObjectShortName">Input_select_mem[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Input_select_wb" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/Input_select_wb">
       <obj_property name="ElementShortName">Input_select_wb[2:0]</obj_property>
       <obj_property name="ObjectShortName">Input_select_wb[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ForwardingUnit/Regfile_Selector1" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ForwardingUnit/Regfile_Selector1">
       <obj_property name="ElementShortName">Regfile_Selector1[3:0]</obj_property>
       <obj_property name="ObjectShortName">Regfile_Selector1[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/rdata_regfile" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/rdata_regfile">
       <obj_property name="ElementShortName">rdata_regfile[31:0]</obj_property>
       <obj_property name="ObjectShortName">rdata_regfile[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/EX_ALU_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/EX_ALU_RESULT">
       <obj_property name="ElementShortName">EX_ALU_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">EX_ALU_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/EX_MUL_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/EX_MUL_RESULT">
       <obj_property name="ElementShortName">EX_MUL_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">EX_MUL_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/EX_MULH_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/EX_MULH_RESULT">
       <obj_property name="ElementShortName">EX_MULH_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">EX_MULH_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/MEM_ALU_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/MEM_ALU_RESULT">
       <obj_property name="ElementShortName">MEM_ALU_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">MEM_ALU_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/MEM_MUL_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/MEM_MUL_RESULT">
       <obj_property name="ElementShortName">MEM_MUL_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">MEM_MUL_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/MEM_MULH_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/MEM_MULH_RESULT">
       <obj_property name="ElementShortName">MEM_MULH_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">MEM_MULH_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/WB_ALU_RESULT" type="array">
-      <obj_property name="ElementShortName">WB_ALU_RESULT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_ALU_RESULT[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/WB_MUL_RESULT" type="array">
-      <obj_property name="ElementShortName">WB_MUL_RESULT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_MUL_RESULT[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/WB_MULH_RESULT" type="array">
-      <obj_property name="ElementShortName">WB_MULH_RESULT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_MULH_RESULT[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/Rdata_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/Rdata_id_in">
       <obj_property name="ElementShortName">Rdata_id_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">Rdata_id_in[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/selector" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst1/selector">
       <obj_property name="ElementShortName">selector[3:0]</obj_property>
       <obj_property name="ObjectShortName">selector[3:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/rdata_regfile" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/rdata_regfile">
       <obj_property name="ElementShortName">rdata_regfile[31:0]</obj_property>
       <obj_property name="ObjectShortName">rdata_regfile[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/EX_ALU_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/EX_ALU_RESULT">
       <obj_property name="ElementShortName">EX_ALU_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">EX_ALU_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/EX_MUL_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/EX_MUL_RESULT">
       <obj_property name="ElementShortName">EX_MUL_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">EX_MUL_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/EX_MULH_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/EX_MULH_RESULT">
       <obj_property name="ElementShortName">EX_MULH_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">EX_MULH_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/MEM_ALU_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/MEM_ALU_RESULT">
       <obj_property name="ElementShortName">MEM_ALU_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">MEM_ALU_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/MEM_MUL_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/MEM_MUL_RESULT">
       <obj_property name="ElementShortName">MEM_MUL_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">MEM_MUL_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/MEM_MULH_RESULT" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/MEM_MULH_RESULT">
       <obj_property name="ElementShortName">MEM_MULH_RESULT[31:0]</obj_property>
       <obj_property name="ObjectShortName">MEM_MULH_RESULT[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/WB_ALU_RESULT" type="array">
-      <obj_property name="ElementShortName">WB_ALU_RESULT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_ALU_RESULT[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/WB_MUL_RESULT" type="array">
-      <obj_property name="ElementShortName">WB_MUL_RESULT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_MUL_RESULT[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/WB_MULH_RESULT" type="array">
-      <obj_property name="ElementShortName">WB_MULH_RESULT[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_MULH_RESULT[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/Rdata_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/Rdata_id_in">
       <obj_property name="ElementShortName">Rdata_id_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">Rdata_id_in[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/selector" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/mux_rfile1_inst2/selector">
       <obj_property name="ElementShortName">selector[3:0]</obj_property>
       <obj_property name="ObjectShortName">selector[3:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/RFILE/registers[8]" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[8]">
       <obj_property name="ElementShortName">[8][31:0]</obj_property>
       <obj_property name="ObjectShortName">[8][31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/RFILE/registers[9]" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/RFILE/registers[9]">
       <obj_property name="ElementShortName">[9][31:0]</obj_property>
       <obj_property name="ObjectShortName">[9][31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/IF_ID_REG/instruction_if_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/IF_ID_REG/instruction_if_in">
       <obj_property name="ElementShortName">instruction_if_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">instruction_if_in[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/IF_ID_REG/PC_if_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/IF_ID_REG/PC_if_in">
       <obj_property name="ElementShortName">PC_if_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">PC_if_in[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/IF_ID_REG/clk" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/IF_ID_REG/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/branch_RST" type="logic">
-      <obj_property name="ElementShortName">branch_RST</obj_property>
-      <obj_property name="ObjectShortName">branch_RST</obj_property>
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/branch_rst">
+      <obj_property name="ElementShortName">branch_rst</obj_property>
+      <obj_property name="ObjectShortName">branch_rst</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/IF_ID_REG/rst" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/IF_ID_REG/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/IF_ID_REG/enable" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/IF_ID_REG/enable">
       <obj_property name="ElementShortName">enable</obj_property>
       <obj_property name="ObjectShortName">enable</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/IF_ID_REG/instruction_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/IF_ID_REG/instruction_id_out">
       <obj_property name="ElementShortName">instruction_id_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">instruction_id_out[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/IF_ID_REG/PC_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/IF_ID_REG/PC_id_out">
       <obj_property name="ElementShortName">PC_id_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">PC_id_out[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/clk" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/rst" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/enable" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/enable">
       <obj_property name="ElementShortName">enable</obj_property>
       <obj_property name="ObjectShortName">enable</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/immediate_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/immediate_id_in">
       <obj_property name="ElementShortName">immediate_id_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">immediate_id_in[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUSrc_id_in" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUSrc_id_in">
       <obj_property name="ElementShortName">ALUSrc_id_in</obj_property>
       <obj_property name="ObjectShortName">ALUSrc_id_in</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/StoreSel_id_in" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/StoreSel_id_in">
       <obj_property name="ElementShortName">StoreSel_id_in</obj_property>
       <obj_property name="ObjectShortName">StoreSel_id_in</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/Jump_id_in" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/Jump_id_in">
       <obj_property name="ElementShortName">Jump_id_in</obj_property>
       <obj_property name="ObjectShortName">Jump_id_in</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/Branch_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/Branch_id_in">
       <obj_property name="ElementShortName">Branch_id_in[2:0]</obj_property>
       <obj_property name="ObjectShortName">Branch_id_in[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUOp_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUOp_id_in">
       <obj_property name="ElementShortName">ALUOp_id_in[2:0]</obj_property>
       <obj_property name="ObjectShortName">ALUOp_id_in[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/regData1_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/regData1_id_in">
       <obj_property name="ElementShortName">regData1_id_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">regData1_id_in[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/regData2_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/regData2_id_in">
       <obj_property name="ElementShortName">regData2_id_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">regData2_id_in[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/mem_write_en_id_in" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/mem_write_en_id_in">
       <obj_property name="ElementShortName">mem_write_en_id_in</obj_property>
       <obj_property name="ObjectShortName">mem_write_en_id_in</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/mux_sell_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/mux_sell_id_in">
       <obj_property name="ElementShortName">mux_sell_id_in[2:0]</obj_property>
       <obj_property name="ObjectShortName">mux_sell_id_in[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/pc_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/pc_id_in">
       <obj_property name="ElementShortName">pc_id_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc_id_in[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/rd_id_in" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/rd_id_in">
       <obj_property name="ElementShortName">rd_id_in[4:0]</obj_property>
       <obj_property name="ObjectShortName">rd_id_in[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/reg_write_id_in" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/reg_write_id_in">
       <obj_property name="ElementShortName">reg_write_id_in</obj_property>
       <obj_property name="ObjectShortName">reg_write_id_in</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/IsValidRD_id_in" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/IsValidRD_id_in">
       <obj_property name="ElementShortName">IsValidRD_id_in</obj_property>
       <obj_property name="ObjectShortName">IsValidRD_id_in</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/immediate_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/immediate_id_out">
       <obj_property name="ElementShortName">immediate_id_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">immediate_id_out[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUSrc_id_out" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUSrc_id_out">
       <obj_property name="ElementShortName">ALUSrc_id_out</obj_property>
       <obj_property name="ObjectShortName">ALUSrc_id_out</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/StoreSel_id_out" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/StoreSel_id_out">
       <obj_property name="ElementShortName">StoreSel_id_out</obj_property>
       <obj_property name="ObjectShortName">StoreSel_id_out</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/Jump_id_out" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/Jump_id_out">
       <obj_property name="ElementShortName">Jump_id_out</obj_property>
       <obj_property name="ObjectShortName">Jump_id_out</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/Branch_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/Branch_id_out">
       <obj_property name="ElementShortName">Branch_id_out[2:0]</obj_property>
       <obj_property name="ObjectShortName">Branch_id_out[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUOp_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/ALUOp_id_out">
       <obj_property name="ElementShortName">ALUOp_id_out[2:0]</obj_property>
       <obj_property name="ObjectShortName">ALUOp_id_out[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/regData1_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/regData1_id_out">
       <obj_property name="ElementShortName">regData1_id_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">regData1_id_out[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/regData2_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/regData2_id_out">
       <obj_property name="ElementShortName">regData2_id_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">regData2_id_out[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/mem_write_en_id_out" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/mem_write_en_id_out">
       <obj_property name="ElementShortName">mem_write_en_id_out</obj_property>
       <obj_property name="ObjectShortName">mem_write_en_id_out</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/mux_sell_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/mux_sell_id_out">
       <obj_property name="ElementShortName">mux_sell_id_out[2:0]</obj_property>
       <obj_property name="ObjectShortName">mux_sell_id_out[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/pc_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/pc_id_out">
       <obj_property name="ElementShortName">pc_id_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">pc_id_out[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/rd_id_out" type="array">
+   <wvobject type="array" fp_name="/DataPath_tb/DUT/ID_EX_REG/rd_id_out">
       <obj_property name="ElementShortName">rd_id_out[4:0]</obj_property>
       <obj_property name="ObjectShortName">rd_id_out[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/reg_write_id_out" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/reg_write_id_out">
       <obj_property name="ElementShortName">reg_write_id_out</obj_property>
       <obj_property name="ObjectShortName">reg_write_id_out</obj_property>
    </wvobject>
-   <wvobject fp_name="/DataPath_tb/DUT/ID_EX_REG/IsValidRD_id_out" type="logic">
+   <wvobject type="logic" fp_name="/DataPath_tb/DUT/ID_EX_REG/IsValidRD_id_out">
       <obj_property name="ElementShortName">IsValidRD_id_out</obj_property>
       <obj_property name="ObjectShortName">IsValidRD_id_out</obj_property>
    </wvobject>

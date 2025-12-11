@@ -1,8 +1,9 @@
 Vivado Simulator v2025.1.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: C:/Xilinx/2025.1/Vivado/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot DataPath_tb_behav xil_defaultlib.DataPath_tb -log elaborate.log 
-Using 2 slave threads.
+Running: /tools/Xilinx/2025.1/Vivado/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot DataPath_tb_behav xil_defaultlib.DataPath_tb -log elaborate.log 
+Using 8 slave threads.
+WARNING: [XSIM 43-3431] One or more environment variables have been detected which affect the operation of the C compiler. These are typically not set in standard installations and are not tested by AMD, however they may be appropriate for your system, so the flow will attempt to continue.  If errors occur, try running xelab with the "-mt off -v 1" switches to see more information from the C compiler. The following environment variables have been detected:
 Starting static elaboration
 Completed static elaboration
 Starting simulation data flow analysis
@@ -28,6 +29,8 @@ Compiling architecture arch_alu_rv32 of entity xil_defaultlib.ALU_RV32 [alu_rv32
 Compiling architecture gate_level of entity xil_defaultlib.FullAdder [fulladder_default]
 Compiling architecture arch_multiplier of entity xil_defaultlib.multiplier [multiplier_default]
 Compiling architecture arch_branch_control of entity xil_defaultlib.Branch_Control [branch_control_default]
+Compiling architecture behavioral of entity xil_defaultlib.Mux_ramfwd [mux_ramfwd_default]
+Compiling architecture behavioral of entity xil_defaultlib.memfwd [memfwd_default]
 Compiling architecture behavioral of entity xil_defaultlib.EX_MEM [ex_mem_default]
 Compiling architecture arch_data_mem of entity xil_defaultlib.Data_Mem [data_mem_default]
 Compiling architecture behavioral of entity xil_defaultlib.MEM_WB [mem_wb_default]

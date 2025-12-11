@@ -51,8 +51,33 @@ begin
 
 process(ex_source_reg1, ex_source_reg2, mem_rd, mux_sellwb)
 begin
-    -- lb is 000
-    --
+    -- lb is 001
+    -- lw is 010.
+    if (ex_source_reg1 = mem_rd) then
+        case mux_sellwb is
+            when "001" =>
+                -- forward from lb to alu input 1
+                selector1 <=  "10";
+            when "010" =>
+                -- forward from lw to alu input 1
+                selector1 <=  "01";
+            when others =>
+                selector1 <=  "00";
+        end case;
+    end if;
+
+    if (ex_source_reg2 = mem_rd) then
+        case mux_sellwb is
+            when "001" =>
+                -- forward from lb to alu input 1
+                selector2 <=  "10";
+            when "010" =>
+                -- forward from lw to alu input 1
+                selector2 <=  "01";
+            when others =>
+                selector2 <=  "00";
+        end case;
+    end if;
 
 end process;
 
