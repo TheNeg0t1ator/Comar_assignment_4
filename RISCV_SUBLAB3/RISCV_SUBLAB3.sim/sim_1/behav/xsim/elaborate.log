@@ -6,35 +6,4 @@ Using 8 slave threads.
 WARNING: [XSIM 43-3431] One or more environment variables have been detected which affect the operation of the C compiler. These are typically not set in standard installations and are not tested by AMD, however they may be appropriate for your system, so the flow will attempt to continue.  If errors occur, try running xelab with the "-mt off -v 1" switches to see more information from the C compiler. The following environment variables have been detected:
 Starting static elaboration
 Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling package std.standard
-Compiling package std.textio
-Compiling package ieee.std_logic_1164
-Compiling package ieee.std_logic_arith
-Compiling package ieee.std_logic_unsigned
-Compiling package ieee.numeric_std
-Compiling architecture arch_pc of entity xil_defaultlib.PC [pc_default]
-Compiling architecture arch_instruction_mem of entity xil_defaultlib.Instruction_Mem [instruction_mem_default]
-Compiling architecture arch_mux of entity xil_defaultlib.Mux [mux_default]
-Compiling architecture arch_if_id of entity xil_defaultlib.if_id [if_id_default]
-Compiling architecture arch_control of entity xil_defaultlib.Control [control_default]
-Compiling architecture arch_inmmediate_generator of entity xil_defaultlib.Immediate_Generator [immediate_generator_default]
-Compiling architecture arch_reg_file of entity xil_defaultlib.Reg_File [reg_file_default]
-Compiling architecture behavioral of entity xil_defaultlib.Mux_rfile1 [mux_rfile1_default]
-Compiling architecture behavioral of entity xil_defaultlib.Forwarding_unit [forwarding_unit_default]
-Compiling architecture behavioral of entity xil_defaultlib.ID_EX [id_ex_default]
-Compiling architecture arch_alu_rv32 of entity xil_defaultlib.ALU_RV32 [alu_rv32_default]
-Compiling architecture gate_level of entity xil_defaultlib.FullAdder [fulladder_default]
-Compiling architecture arch_multiplier of entity xil_defaultlib.multiplier [multiplier_default]
-Compiling architecture arch_branch_control of entity xil_defaultlib.Branch_Control [branch_control_default]
-Compiling architecture behavioral of entity xil_defaultlib.Mux_ramfwd [mux_ramfwd_default]
-Compiling architecture behavioral of entity xil_defaultlib.memfwd [memfwd_default]
-Compiling architecture behavioral of entity xil_defaultlib.EX_MEM [ex_mem_default]
-Compiling architecture arch_data_mem of entity xil_defaultlib.Data_Mem [data_mem_default]
-Compiling architecture behavioral of entity xil_defaultlib.MEM_WB [mem_wb_default]
-Compiling architecture arch_mux_toregfile of entity xil_defaultlib.Mux_ToRegFile [mux_toregfile_default]
-Compiling architecture arch_datapath of entity xil_defaultlib.DataPath [datapath_default]
-Compiling architecture arch_datapath of entity xil_defaultlib.datapath_tb
-Built simulation snapshot DataPath_tb_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel

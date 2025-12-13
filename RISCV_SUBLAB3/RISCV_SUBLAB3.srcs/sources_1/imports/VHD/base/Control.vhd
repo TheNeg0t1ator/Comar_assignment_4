@@ -206,6 +206,16 @@ begin
                         ALUOp       <= "001";
                         WriteReg    <= '1';
                         IsValidRD   <= '1';
+                    when "001" =>               --SLLI
+                        jump        <= '0';
+                        Branch      <= "000";
+                        ToRegister  <= "000";
+                        MemWrite    <= '0';
+                        StoreSel    <= '0';
+                        ALUSrc      <= '0';
+                        ALUOp       <= "110";
+                        WriteReg    <= '1';
+                        IsValidRD   <= '1';
                     when others =>
                         jump        <= '0';
                         Branch      <= "000";
