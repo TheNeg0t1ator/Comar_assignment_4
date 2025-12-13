@@ -9,7 +9,9 @@ entity if_id is
 		rst					:in std_logic;
 		enable				:in std_logic;
         instruction_id_out  :out std_logic_vector(31 downto 0);
-		PC_id_out			:out std_logic_vector(31 downto 0) 
+		PC_id_out			  :out std_logic_vector(31 downto 0);
+		Branch_prediction_in  :in std_logic; 
+		Branch_prediction_out :out std_logic 
     );
 end entity if_id;
 
@@ -21,12 +23,14 @@ begin
 			if rst = '0' then
             			PC_id_out <=  X"00000000"; 
 				instruction_id_out <= X"00000000"; 
+				Branch_prediction_out <= '0';
         		else
 				if enable = '1' then	
 					--PC value is required in next stage
 					PC_id_out <= PC_if_in;  								  
 					-- output of instruction mem will be decoded in next state
 					instruction_id_out<= instruction_if_in;
+					Branch_prediction_out  <= Branch_prediction_in;
             			end if;
         		end if;		
 		end if;

@@ -16,7 +16,8 @@ Compiling package ieee.std_logic_unsigned
 Compiling package ieee.numeric_std
 Compiling architecture arch_pc of entity xil_defaultlib.PC [pc_default]
 Compiling architecture arch_instruction_mem of entity xil_defaultlib.Instruction_Mem [instruction_mem_default]
-Compiling architecture arch_mux of entity xil_defaultlib.Mux [mux_default]
+Compiling architecture behavioral of entity xil_defaultlib.Mux_Predict [mux_predict_default]
+Compiling architecture behavioral of entity xil_defaultlib.Branch_Predictor [branch_predictor_default]
 Compiling architecture arch_if_id of entity xil_defaultlib.if_id [if_id_default]
 Compiling architecture arch_control of entity xil_defaultlib.Control [control_default]
 Compiling architecture arch_inmmediate_generator of entity xil_defaultlib.Immediate_Generator [immediate_generator_default]
@@ -24,6 +25,7 @@ Compiling architecture arch_reg_file of entity xil_defaultlib.Reg_File [reg_file
 Compiling architecture behavioral of entity xil_defaultlib.Mux_rfile1 [mux_rfile1_default]
 Compiling architecture behavioral of entity xil_defaultlib.Forwarding_unit [forwarding_unit_default]
 Compiling architecture behavioral of entity xil_defaultlib.ID_EX [id_ex_default]
+Compiling architecture arch_mux of entity xil_defaultlib.Mux [mux_default]
 Compiling architecture arch_alu_rv32 of entity xil_defaultlib.ALU_RV32 [alu_rv32_default]
 Compiling architecture gate_level of entity xil_defaultlib.FullAdder [fulladder_default]
 Compiling architecture arch_multiplier of entity xil_defaultlib.multiplier [multiplier_default]

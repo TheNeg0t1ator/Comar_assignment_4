@@ -60,8 +60,8 @@ port (
         --memfwd
         source_reg_id_in1  : in std_logic_vector(4 downto 0);
         source_reg_id_in2  : in std_logic_vector(4 downto 0);
-        
-
+        Branch_prediction_in  :in std_logic; 
+		
         -- Outputs to EX stage
         immediate_id_out    : out std_logic_vector(31 downto 0);
         --MUX0 
@@ -85,7 +85,9 @@ port (
         IsValidRD_id_out    : out std_logic;
         --memfwd
         source_reg_id_out1   : out std_logic_vector(4 downto 0);
-        source_reg_id_out2   : out std_logic_vector(4 downto 0)
+        source_reg_id_out2   : out std_logic_vector(4 downto 0);
+        Branch_prediction_out :out std_logic 
+    
     );
 end ID_EX;
 
@@ -119,6 +121,7 @@ begin
                 --memfwd
                 source_reg_id_out1      <= (others => '0');
                 source_reg_id_out2      <= (others => '0');
+                Branch_prediction_out <= '0';
 
             else
                 if enable = '1' then
@@ -145,6 +148,7 @@ begin
                     --memfwd
                     source_reg_id_out1      <= source_reg_id_in1;
                     source_reg_id_out2      <= source_reg_id_in2;
+                    Branch_prediction_out  <= Branch_prediction_in;
                 end if;
             end if;
         end if;

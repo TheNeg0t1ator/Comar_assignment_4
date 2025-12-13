@@ -150,7 +150,9 @@ architecture arch_DataPath of DataPath is
           rst                   :in std_logic;
           enable                :in std_logic;
           instruction_id_out    :out std_logic_vector(31 downto 0);
-          PC_id_out             :out std_logic_vector(31 downto 0)
+          PC_id_out             :out std_logic_vector(31 downto 0);
+          Branch_prediction_in  :in std_logic; 
+		  Branch_prediction_out :out std_logic 
         );
     end component;
 
@@ -162,7 +164,7 @@ architecture arch_DataPath of DataPath is
             enable              : in std_logic;
             -- inputs to EX stage
             immediate_id_in    : in std_logic_vector(31 downto 0);
-            --MUX0
+            --MUX0 
             ALUSrc_id_in       : in std_logic;
             --MUX1
             StoreSel_id_in     : in std_logic;
@@ -184,9 +186,11 @@ architecture arch_DataPath of DataPath is
             --memfwd
             source_reg_id_in1  : in std_logic_vector(4 downto 0);
             source_reg_id_in2  : in std_logic_vector(4 downto 0);
+            Branch_prediction_in  :in std_logic; 
+            
             -- Outputs to EX stage
             immediate_id_out    : out std_logic_vector(31 downto 0);
-            --MUX0
+            --MUX0 
             ALUSrc_id_out       : out std_logic;
             --MUX1
             StoreSel_id_out     : out std_logic;
@@ -207,7 +211,8 @@ architecture arch_DataPath of DataPath is
             IsValidRD_id_out    : out std_logic;
             --memfwd
             source_reg_id_out1   : out std_logic_vector(4 downto 0);
-            source_reg_id_out2   : out std_logic_vector(4 downto 0)
+            source_reg_id_out2   : out std_logic_vector(4 downto 0);
+            Branch_prediction_out :out std_logic 
         );
     end component;
 
@@ -323,8 +328,26 @@ architecture arch_DataPath of DataPath is
        );
     end component;
 
-    
-
+    component  Branch_Predictor
+        Port ( 
+            Prediction_in   : in  std_logic;
+            IF_in           : in  std_logic_vector(31 downto 0);
+            Current_PC      : in  std_logic_vector(31 downto 0);
+            New_PC          : out std_logic_vector(31 downto 0);
+            Prediction_out  : out std_logic
+        );
+    end component;
+    component Mux_Predict
+    port (
+            PC_Current : in  std_logic_vector(31 downto 0);
+            PC_Old     : in  std_logic_vector(31 downto 0);
+            PC_New     : in  std_logic_vector(31 downto 0);
+            selector   : in  std_logic;
+            Predictor  : in  std_logic;
+            muxOut     : out std_logic_vector(31 downto 0);
+            RST        : out std_logic
+        );
+    end component;
 -- ===================== Signals =====================
     signal PCOut_IF_ID, PCOutPlus_IF_ID, PCOut, PCOutPlus : std_logic_vector(31 downto 0);
     signal instruction_To_IF_ID, instruction : std_logic_vector(31 downto 0);
@@ -448,6 +471,8 @@ architecture arch_DataPath of DataPath is
 
     signal data_For_RegFile : std_logic_vector(31 downto 0);
     signal branch_rst :std_logic;
+    signal prediction_IF, prediction_ID , prediction_EX :std_logic;
+    signal RST_Branch : std_logic;
 begin
 --branch_RST <= rst or PCSrc;
 
@@ -464,24 +489,34 @@ ROM: Instruction_Mem port map (
     instruction => instruction_To_IF_ID
 );
 
-PCOutPlus <=  PCOut_IF_ID + 4;
-
-Mux3: Mux port map (
-    muxIn0   => PCOutPlus,
-    muxIn1   => newAddress,
-    selector => PCSrc,
-    muxOut   => PCIn
+Mux3: Mux_Predict port map (
+    PC_Current => PCOutPlus,
+    PC_Old     => pc_ex_in,
+    PC_New     => newAddress,
+    selector   => PCSrc,
+    Predictor  => prediction_EX,
+    muxOut     => PCIn,
+    RST        => RST_Branch
 );
 
+Branch_Predictor_inst : Branch_Predictor port map ( 
+    Prediction_in   => '1',                    -- static prediction for now
+    IF_in           => instruction_To_IF_ID,   -- full instruction
+    Current_PC      => PCOut_IF_ID,             -- FULL 32-bit PC
+    New_PC          => PCOutPlus,                    -- next PC goes here
+    Prediction_out  => prediction_IF
+);
 -- ===================== IF_ID =====================
 IF_ID_REG: if_id port map (
     instruction_if_in  => instruction_To_IF_ID,
     PC_if_in           => PCOut_IF_ID,
     clk                => clk,
-    rst                => rst and not (PCSrc),
+    rst                => rst and RST_Branch,
     enable             => '1',
     instruction_id_out => instruction,
-    PC_id_out          => PCOut
+    PC_id_out          => PCOut,
+    Branch_prediction_in  => prediction_IF,
+	Branch_prediction_out => prediction_ID
 );
 
 -- ===================== ID STAGE =====================
@@ -563,7 +598,7 @@ ForwardingUnit: Forwarding_unit port map (
 -- ===================== ID_EX =====================
 ID_EX_REG: ID_EX port map (
     clk                 => clk,
-    rst                => rst and not (PCSrc),
+    rst                => rst and RST_Branch,
     enable              => '1',
     -- inputs to EX stage
     immediate_id_in     => immediate_id_in,
@@ -612,7 +647,9 @@ ID_EX_REG: ID_EX port map (
     IsValidRD_id_out    => IsValidRD_id_out_sig,
     --memfwd
     source_reg_id_out1  => source_reg_id_out1_sig,
-    source_reg_id_out2  => source_reg_id_out2_sig
+    source_reg_id_out2  => source_reg_id_out2_sig,
+    Branch_prediction_in  => prediction_ID,
+	Branch_prediction_out => prediction_EX
 );
 
 -- ===================== EX STAGE =====================

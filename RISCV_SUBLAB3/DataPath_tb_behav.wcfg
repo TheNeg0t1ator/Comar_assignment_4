@@ -10,17 +10,17 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="14,420.980 ns"></ZoomStartTime>
-      <ZoomEndTime time="20,910.981 ns"></ZoomEndTime>
-      <Cursor1Time time="43,033.334 ns"></Cursor1Time>
+      <ZoomStartTime time="0.848000 us"></ZoomStartTime>
+      <ZoomEndTime time="74.048001 us"></ZoomEndTime>
+      <Cursor1Time time="13.048000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="199"></NameColumnWidth>
-      <ValueColumnWidth column_width="104"></ValueColumnWidth>
+      <ValueColumnWidth column_width="100"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="20" />
    <wave_markers>
-      <marker time="77336000" label="" />
+      <marker time="69160000" label="" />
    </wave_markers>
    <wvobject fp_name="/DataPath_tb/clk_period" type="other">
       <obj_property name="ElementShortName">clk_period</obj_property>
