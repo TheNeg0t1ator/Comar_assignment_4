@@ -478,7 +478,7 @@ IF_ID_REG: if_id port map (
     instruction_if_in  => instruction_To_IF_ID,
     PC_if_in           => PCOut_IF_ID,
     clk                => clk,
-    rst                => rst or PCSrc,
+    rst                => rst and not (PCSrc),
     enable             => '1',
     instruction_id_out => instruction,
     PC_id_out          => PCOut
@@ -563,7 +563,7 @@ ForwardingUnit: Forwarding_unit port map (
 -- ===================== ID_EX =====================
 ID_EX_REG: ID_EX port map (
     clk                 => clk,
-    rst                 => rst or PCSrc,
+    rst                => rst and not (PCSrc),
     enable              => '1',
     -- inputs to EX stage
     immediate_id_in     => immediate_id_in,
