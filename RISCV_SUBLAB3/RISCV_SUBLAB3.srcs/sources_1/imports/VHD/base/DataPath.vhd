@@ -181,6 +181,9 @@ architecture arch_DataPath of DataPath is
             rd_id_in           : in std_logic_vector(4 downto 0);
             reg_write_id_in    : in std_logic;
             IsValidRD_id_in    : in std_logic;
+            --memfwd
+            source_reg_id_in1  : in std_logic_vector(4 downto 0);
+            source_reg_id_in2  : in std_logic_vector(4 downto 0);
             -- Outputs to EX stage
             immediate_id_out    : out std_logic_vector(31 downto 0);
             --MUX0
@@ -201,7 +204,10 @@ architecture arch_DataPath of DataPath is
             pc_id_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
             rd_id_out           : out std_logic_vector(4 downto 0);
             reg_write_id_out    : out std_logic;
-            IsValidRD_id_out    : out std_logic
+            IsValidRD_id_out    : out std_logic;
+            --memfwd
+            source_reg_id_out1   : out std_logic_vector(4 downto 0);
+            source_reg_id_out2   : out std_logic_vector(4 downto 0)
         );
     end component;
 
@@ -274,17 +280,15 @@ architecture arch_DataPath of DataPath is
 
     component Mux_rfile1
       Port ( 
-        rdata_regfile  : in  std_logic_vector(31 downto 0);
+        rdata_regfile   : in  std_logic_vector(31 downto 0);
         EX_ALU_RESULT   : in  std_logic_vector(31 downto 0);
         EX_MUL_RESULT   : in  std_logic_vector(31 downto 0);
         EX_MULH_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_ALU_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_MUL_RESULT  : in  std_logic_vector(31 downto 0);
         MEM_MULH_RESULT : in  std_logic_vector(31 downto 0);
-        WB_ALU_RESULT  : in  std_logic_vector(31 downto 0);
-        WB_MUL_RESULT  : in  std_logic_vector(31 downto 0);
-        WB_MULH_RESULT : in  std_logic_vector(31 downto 0);
-        Rdata_id_in    : out std_logic_vector(31 downto 0);
+        MEM_LOAD_WORD   : in  std_logic_vector(31 downto 0);
+        Rdata_id_in     : out std_logic_vector(31 downto 0);
         selector        : in  std_logic_vector(3 downto 0)
       );
     end component;
@@ -298,6 +302,26 @@ architecture arch_DataPath of DataPath is
             Valid_rd_ex, Valid_rd_mem, Valid_rd_wb                  : in std_logic
         );
      end component;
+
+    component Mux_ramfwd
+      Port ( 
+        SourceReg:   in  std_logic_vector (31 downto 0);
+        MEM_LOAD_WORD:   in  std_logic_vector (31 downto 0);
+        Output:   out std_logic_vector (31 downto 0);
+        selector: in  std_logic_vector (1 downto 0)
+      );
+    end component;
+
+    component memfwd
+      Port (
+        selector1:      out  std_logic_vector (1 downto 0);
+        selector2:      out  std_logic_vector (1 downto 0);
+        ex_source_reg1: in  std_logic_vector (4 downto 0);
+        ex_source_reg2: in  std_logic_vector (4 downto 0);
+        mem_rd:         in  std_logic_vector (4 downto 0);
+        mux_sellwb:     in  std_logic_vector (2 downto 0)
+       );
+    end component;
 
     
 
@@ -364,6 +388,9 @@ architecture arch_DataPath of DataPath is
     signal rd_id_out           : std_logic_vector(4 downto 0);
     signal reg_write_id_out    : std_logic;
     signal IsValidRD_id_out_sig : std_logic;
+    --memfwd
+    signal source_reg_id_out1_sig   : std_logic_vector(4 downto 0);
+    signal source_reg_id_out2_sig   : std_logic_vector(4 downto 0);
 
 -- EX
     --MUX0
@@ -372,6 +399,12 @@ architecture arch_DataPath of DataPath is
     signal regData2Anded: std_logic_vector(31 downto 0);
     --ALU
     signal signo, zero, carry: std_logic;
+
+    --Mux_ramfwd
+    signal mux_ramfwd_out1 : std_logic_vector(31 downto 0);
+    signal mux_ramfwd_out2 : std_logic_vector(31 downto 0);
+    signal ramfwd_selector1 : std_logic_vector(1 downto 0);
+    signal ramfwd_selector2 : std_logic_vector(1 downto 0);
 
 -- EX-MEM reg
     -- Inputs from EX stage
@@ -445,7 +478,7 @@ IF_ID_REG: if_id port map (
     instruction_if_in  => instruction_To_IF_ID,
     PC_if_in           => PCOut_IF_ID,
     clk                => clk,
-    rst                => rst or PCSrc,
+    rst                => rst and not (PCSrc),
     enable             => '1',
     instruction_id_out => instruction,
     PC_id_out          => PCOut
@@ -485,30 +518,26 @@ RFILE: Reg_File port map (
 
 mux_rfile1_inst1: Mux_rfile1 port map (
     rdata_regfile  => regdata1_MUX,
-    EX_ALU_RESULT   =>  ALU_result_ex_in,--done
+    EX_ALU_RESULT   =>  ALU_result_ex_in,
     EX_MUL_RESULT   =>  MUL_result_ex_in (31 downto 0),
     EX_MULH_RESULT  =>  MUL_result_ex_in (63 downto 32),
     MEM_ALU_RESULT  =>  ALU_result_ex_out,
     MEM_MUL_RESULT  =>  MUL_result_wb_in (31 downto 0),
     MEM_MULH_RESULT =>  MUL_result_wb_in (63 downto 32),
-    WB_ALU_RESULT   =>  ALU_result_wb_out,
-    WB_MUL_RESULT   =>  MUL_result_wb_out (31 downto 0),
-    WB_MULH_RESULT  =>  MUL_result_wb_out (63 downto 32),
-    Rdata_id_in    => regData1_id_in,
+    MEM_LOAD_WORD   =>  mem_data_wb_in,
+    Rdata_id_in     => regData1_id_in,
     selector        => Regfile_Selector_signal1
 );
 
 mux_rfile1_inst2: Mux_rfile1 port map (
     rdata_regfile  => regdata2_MUX,
-    EX_ALU_RESULT   =>  ALU_result_ex_in,--done
+    EX_ALU_RESULT   =>  ALU_result_ex_in,
     EX_MUL_RESULT   =>  MUL_result_ex_in (31 downto 0),
     EX_MULH_RESULT  =>  MUL_result_ex_in (63 downto 32),
     MEM_ALU_RESULT  =>  ALU_result_ex_out,
     MEM_MUL_RESULT  =>  MUL_result_wb_in (31 downto 0),
     MEM_MULH_RESULT =>  MUL_result_wb_in (63 downto 32),
-    WB_ALU_RESULT   =>  ALU_result_wb_out,
-    WB_MUL_RESULT   =>  MUL_result_wb_out (31 downto 0),
-    WB_MULH_RESULT  =>  MUL_result_wb_out (63 downto 32),
+    MEM_LOAD_WORD   =>  mem_data_wb_in,
     Rdata_id_in     =>  regData2_id_in,
     selector        =>  Regfile_Selector_signal2
 );
@@ -534,7 +563,7 @@ ForwardingUnit: Forwarding_unit port map (
 -- ===================== ID_EX =====================
 ID_EX_REG: ID_EX port map (
     clk                 => clk,
-    rst                 => rst or PCSrc,
+    rst                => rst and not (PCSrc),
     enable              => '1',
     -- inputs to EX stage
     immediate_id_in     => immediate_id_in,
@@ -550,6 +579,9 @@ ID_EX_REG: ID_EX port map (
     ALUOp_id_in         => ALUOp_id_in,
     regData1_id_in      => regData1_id_in,
     regData2_id_in      => regData2_id_in,
+    --memfwd
+    source_reg_id_in1   => instruction(19 downto 15),
+    source_reg_id_in2   => instruction(24 downto 20),
     --EX-MEM
     mem_write_en_id_in  => mem_write_en_id_in,
     mux_sell_id_in      => mux_sell_id_in,
@@ -577,19 +609,22 @@ ID_EX_REG: ID_EX port map (
     pc_id_out           => pc_ex_in,
     rd_id_out           => rd_ex_in,
     reg_write_id_out    => reg_write_ex_in,
-    IsValidRD_id_out    => IsValidRD_id_out_sig
+    IsValidRD_id_out    => IsValidRD_id_out_sig,
+    --memfwd
+    source_reg_id_out1  => source_reg_id_out1_sig,
+    source_reg_id_out2  => source_reg_id_out2_sig
 );
 
 -- ===================== EX STAGE =====================
 Mux0_EX: Mux port map (
     muxIn0   => immediate_id_out,
-    muxIn1   => regData2_id_out,
+    muxIn1   => mux_ramfwd_out2,
     selector => ALUSrc_id_out,
     muxOut   => op2_ex
 );
 
 ALU: ALU_RV32 port map (
-    operator1 => regData1_id_out,
+    operator1 => mux_ramfwd_out1,
     operator2 => op2_ex,
     ALUOp     => ALUOp_id_out,
     result    => ALU_result_ex_in,
@@ -599,13 +634,13 @@ ALU: ALU_RV32 port map (
 );
 
 MUL: multiplier port map (
-    operator1 => regData1_id_out,
+    operator1 => mux_ramfwd_out1,
     operator2 => op2_ex,
     product   => MUL_result_ex_in
 );
 
 Mux1: Mux port map (
-    muxIn0   => regData2_id_out,
+    muxIn0   => mux_ramfwd_out2,
     muxIn1   => regData2Anded,
     selector => StoreSel_id_out,
     muxOut   => mem_write_data_ex_in
@@ -624,10 +659,35 @@ Mux2: Mux port map (
     selector => Jump_id_out,
     muxOut   => offset
 );
+
+mux_ramfwd_1: Mux_ramfwd port map (
+    SourceReg       => regData1_id_out,
+    MEM_LOAD_WORD   => mem_data_wb_in,
+    Output          => mux_ramfwd_out1,
+    selector        => ramfwd_selector1
+);
+
+mux_ramfwd_2: Mux_ramfwd port map (
+    SourceReg       => regData2_id_out,
+    MEM_LOAD_WORD   => mem_data_wb_in,
+    Output          => mux_ramfwd_out2,
+    selector        => ramfwd_selector2
+);
+
+mufwd_unit: memfwd port map (
+    selector1        => ramfwd_selector1,
+    selector2        => ramfwd_selector2,
+    ex_source_reg1   => source_reg_id_out1_sig,
+    ex_source_reg2   => source_reg_id_out2_sig,
+    mem_rd           => rd_wb_in,
+    mux_sellwb       => mux_sell_wb_in
+);
+
 branch_rst <= rst;
-regData2Anded <= regData2_id_out and X"000000FF";
+regData2Anded <= mux_ramfwd_out2 and X"000000FF";
 shifted       <= offset(30 downto 0) & '0';
 newAddress    <= pc_ex_in + shifted;
+
 
 -- ===================== EX_MEM =====================
 EX_MEM_REG: EX_MEM port map (

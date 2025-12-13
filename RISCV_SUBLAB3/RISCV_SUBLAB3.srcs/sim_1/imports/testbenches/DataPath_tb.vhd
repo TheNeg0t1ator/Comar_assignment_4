@@ -15,7 +15,7 @@ architecture arch_Datapath of DataPath_tb is
   signal clk       : std_logic  := '0';
   signal rst       : std_logic  := '0';
 
-  constant clk_period : time := 50 ns;
+  constant clk_period : time := 56 ns;
 
 begin  -- architecture arch_Datapath
 

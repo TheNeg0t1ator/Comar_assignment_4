@@ -53,23 +53,18 @@ begin
     
         if (SourceReg1_id = RD_ex) and (SourceReg1_id /= "00000") and (Valid_rd_ex = '1') then -- Result from EX stage need, forward from ex to id
             case Input_select_ex is
-                when "000" => Regfile_Selector1 <= "0001";
-                when "110" => Regfile_Selector1 <= "0010";
-                when "111" => Regfile_Selector1 <= "0011";
+                when "000" => Regfile_Selector1 <= "0001"; --ALU
+                when "110" => Regfile_Selector1 <= "0010"; --MUL
+                when "111" => Regfile_Selector1 <= "0011"; --MULH
                 when others => Regfile_Selector1 <= "0000";
             end case;
         elsif (SourceReg1_id = RD_mem) and (SourceReg1_id /= "00000") and (Valid_rd_mem = '1') then -- Result from MEM stage need, forward from mem to id
             case Input_select_mem is
-                when "000" => Regfile_Selector1 <= "0100";
-                when "110" => Regfile_Selector1 <= "0101";
-                when "111" => Regfile_Selector1 <= "0110";
-                when others => Regfile_Selector1 <= "0000";
-            end case;
-        elsif (SourceReg1_id = RD_wb) and (SourceReg1_id /= "00000") and (Valid_rd_wb = '1') then -- Result from WB stage need, forward from WB to id
-            case Input_select_wb is
-                when "000" => Regfile_Selector1 <= "0111";
-                when "110" => Regfile_Selector1 <= "1001";
-                when "111" => Regfile_Selector1 <= "1010";
+                when "000" => Regfile_Selector1 <= "0100"; --ALU
+                when "110" => Regfile_Selector1 <= "0101"; --MUL
+                when "111" => Regfile_Selector1 <= "0110"; --MULH
+                when "001" => Regfile_Selector1 <= "1000"; --LB
+                when "010" => Regfile_Selector1 <= "0111"; --LW
                 when others => Regfile_Selector1 <= "0000";
             end case;
         end if;
@@ -77,27 +72,21 @@ begin
 
         if (SourceReg2_id = RD_ex) and (SourceReg2_id /= "00000") and (Valid_rd_ex = '1') then -- Result from EX stage need, forward from ex to id
             case Input_select_ex is
-                when "000" => Regfile_Selector2 <= "0001";
-                when "110" => Regfile_Selector2 <= "0010";
-                when "111" => Regfile_Selector2 <= "0011";
+                when "000" => Regfile_Selector2 <= "0001"; --ALU
+                when "110" => Regfile_Selector2 <= "0010"; --MUL
+                when "111" => Regfile_Selector2 <= "0011"; --MULH
                 when others => Regfile_Selector2 <= "0000";
             end case;
         elsif (SourceReg2_id = RD_mem) and (SourceReg2_id /= "00000") and (Valid_rd_mem = '1') then -- Result from MEM stage need, forward from mem to id
             case Input_select_mem is
-                when "000" => Regfile_Selector2 <= "0100";
-                when "110" => Regfile_Selector2 <= "0101";
-                when "111" => Regfile_Selector2 <= "0110";
+                when "000" => Regfile_Selector2 <= "0100"; --ALU
+                when "110" => Regfile_Selector2 <= "0101"; --MUL
+                when "111" => Regfile_Selector2 <= "0110"; --MULH
+                when "001" => Regfile_Selector1 <= "1000"; --LB
+                when "010" => Regfile_Selector1 <= "0111"; --LW
                 when others => Regfile_Selector2 <= "0000";
             end case;
-        elsif (SourceReg2_id = RD_wb) and (SourceReg2_id /= "00000") and (Valid_rd_wb = '1') then -- Result from WB stage need, forward from WB to id
-            case Input_select_wb is
-                when "000" => Regfile_Selector1 <= "0111"; 
-                when "110" => Regfile_Selector1 <= "1001";
-                when "111" => Regfile_Selector1 <= "1010";
-                when others => Regfile_Selector1 <= "0000";
-            end case;
         end if;
-        
     end process;
 
 
