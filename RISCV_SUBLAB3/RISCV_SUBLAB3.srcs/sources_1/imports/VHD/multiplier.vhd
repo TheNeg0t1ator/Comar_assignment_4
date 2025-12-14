@@ -1,50 +1,44 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-use ieee.std_logic_unsigned.all;  
+use ieee.std_logic_unsigned.all;
 
 entity multiplier is
     generic(size: INTEGER := 32);
     port (
-        operator1   : in std_logic_vector(size-1 downto 0);
-        operator2   : in std_logic_vector(size-1 downto 0);
-        product     : out std_logic_vector(2*size-1 downto 0)
+        operator1 : in  std_logic_vector(size-1 downto 0);
+        operator2 : in  std_logic_vector(size-1 downto 0);
+        product   : out std_logic_vector(2*size-1 downto 0)
     );
-end entity multiplier;	 
+end entity multiplier;
 
 architecture arch_multiplier of multiplier is
 
-    type Tr is array (size-1 downto 0) of std_logic_vector(size downto 0);
-    signal PProduct, S, C : Tr;
-
-    component FullAdder
-        Port ( 
-            X : in STD_LOGIC;
-            Y : in STD_LOGIC;
-            Ci : in STD_LOGIC;
-            Sum : out STD_LOGIC;
-            Co : out STD_LOGIC
-        );
-    end component;
+    signal shiftNumb : std_logic_vector(4 downto 0);
+    signal shift1l, shift2l, shift4l, shift8l, shift16l : std_logic_vector(31 downto 0);
+    signal partial : std_logic_vector(63 downto 0);
 
 begin
-    
-    S(0)(size) <= '0';
-    row_0: for i in size-1 downto 0 generate
-        S(0)(i) <= operator1(i) and operator2(0);
-    end generate row_0;
 
-    row_j : for j in 1 to size-1 generate
-        S(j)(size) <= C(j)(size);
-        col_i : for i in size-1 downto 0 generate
-            PProduct(j)(i) <= operator1(i) and operator2(j);
-            FullAdd: FullAdder port map (X => S(j-1)(i+1), Y => PProduct(j)(i), Ci => C(j)(i), Sum => S(j)(i), Co => C(j)(i+1));
-        end generate ; -- col_i
-        C(j)(0) <= '0';
-        product(j) <= S(j)(0);
-    end generate ; -- row_j
+    process(operator1, operator2)
+        variable op1   : unsigned(31 downto 0);
+        variable op2   : unsigned(31 downto 0);
+        variable result_var : unsigned(63 downto 0);
+        variable temp_shift : unsigned(63 downto 0);
+    begin
+        op1 := unsigned(operator1);
+        op2 := unsigned(operator2);
+        result_var := (others => '0');
 
-    product(2*size-1 downto size) <= S(size -1)(size downto 1);
-    product(0) <= S(0)(0);
-    
+        -- Loop over each bit of operator2
+        for i in 0 to 31 loop
+            if op2(i) = '1' then
+                temp_shift := shift_left(resize(op1, 64), i);
+                result_var := result_var + temp_shift;
+            end if;
+        end loop;
+
+        product <= std_logic_vector(result_var);
+    end process;
+
 end architecture arch_multiplier;

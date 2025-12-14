@@ -8,7 +8,6 @@ vhdl xil_defaultlib  \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Data_Mem.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/new/EX_MEM.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/new/Forwarding_unit.vhd" \
-"../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/FullAdder.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/new/ID_EX.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Immediate_Generator.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Instruction_Mem.vhd" \
