@@ -139,7 +139,8 @@ architecture arch_DataPath of DataPath is
             StoreSel    : out std_logic;
             ALUSrc      : out std_logic;
             WriteReg    : out std_logic;
-            IsValidRD   : out std_logic
+            IsValidRD   : out std_logic;
+            IsMatrixMul : out std_logic
         );
     end component;
 
@@ -543,6 +544,7 @@ architecture arch_DataPath of DataPath is
     signal MatrixB_1, MatrixB_2, MatrixB_3, MatrixB_4, MatrixB_5 : std_logic_vector(31 downto 0);
     signal ResultMatrixC : std_logic_vector(31 downto 0);
     signal matrixmul_enable : std_logic;
+    signal Ctrl_MatrixMul_enable : std_logic;
 
 begin
 --branch_RST <= rst or PCSrc;
@@ -603,7 +605,8 @@ Ctrl: Control port map (
     ALUSrc      => ALUSrc_id_in,
     WriteReg    => reg_write_id_in,
     ToRegister  => mux_sell_id_in,
-    IsValidRD   => IsValidRD_id_in_sig
+    IsValidRD   => IsValidRD_id_in_sig,
+    IsMatrixMul => Ctrl_MatrixMul_enable
 );
 
 Imm: Immediate_Generator port map (
@@ -701,7 +704,7 @@ ID_EX_REG: ID_EX port map (
     MatrixMul_Adress1_in        => regdata1_MUX,
     MatrixMul_Adress2_in        => regdata2_MUX,
     MatrixMul_ReturnAdress_in   => MatrixMul_ra_in_sig,
-    MatrixMul_enable_in         => '0',
+    MatrixMul_enable_in         => Ctrl_MatrixMul_enable,
 
     -- Outputs to EX stage
     immediate_id_out    => immediate_id_out,
