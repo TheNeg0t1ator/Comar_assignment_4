@@ -31,14 +31,16 @@ architecture arch_DataPath of DataPath is
 
     component Reg_File
         port (
-            clk         :in std_logic;
-            writeReg    :in std_logic;                          --signal for write in register
-            sourceReg1  :in std_logic_vector(4 downto 0);       --address of rs1
-            sourceReg2  :in std_logic_vector(4 downto 0);       --address of rs2
-            destinyReg  :in std_logic_vector(4 downto 0);       --address of rd
-            data        :in std_logic_vector(31 downto 0);      --Data to be written
-            readData1   :out std_logic_vector(31 downto 0);     --data in rs1
-            readData2   :out std_logic_vector(31 downto 0)      --data in rs2
+            clk                 :in  std_logic;
+            writeReg            :in  std_logic;                          --signal for write in register
+            sourceReg1          :in  std_logic_vector(4 downto 0);       --address of rs1
+            sourceReg2          :in  std_logic_vector(4 downto 0);       --address of rs2
+            destinyReg          :in  std_logic_vector(4 downto 0);       --address of rd
+            data                :in  std_logic_vector(31 downto 0);      --Data to be written
+            readData1           :out std_logic_vector(31 downto 0);     --data in rs1
+            readData2           :out std_logic_vector(31 downto 0);      --data in rs2
+            Matrixmul_ra        :out std_logic_vector(31 downto 0);
+            Matrixmul_ra_src    :in  std_logic_vector(4 downto 0)
         );
     end component;
 
@@ -166,60 +168,70 @@ architecture arch_DataPath of DataPath is
     -- ID_EX component declaration (added)
     component ID_EX
     port (
-            clk                 : in std_logic;
-            rst                 : in std_logic;
-            enable              : in std_logic;
+            clk                         : in std_logic;
+            rst                         : in std_logic;
+            enable                      : in std_logic;
             -- inputs to EX stage
-            immediate_id_in    : in std_logic_vector(31 downto 0);
+            immediate_id_in             : in std_logic_vector(31 downto 0);
             --MUX0 
-            ALUSrc_id_in       : in std_logic;
+            ALUSrc_id_in                : in std_logic;
             --MUX1
-            StoreSel_id_in     : in std_logic;
+            StoreSel_id_in              : in std_logic;
             --MUX2
-            Jump_id_in         : in std_logic;
+            Jump_id_in                  : in std_logic;
             --Branch-Control
-            Branch_id_in       : in std_logic_vector(2 downto 0);
+            Branch_id_in                : in std_logic_vector(2 downto 0);
             --ALU
-            ALUOp_id_in        : in std_logic_vector(2 downto 0);
-            regData1_id_in     : in std_logic_vector(31 downto 0);
-            regData2_id_in     : in std_logic_vector(31 downto 0);
+            ALUOp_id_in                 : in std_logic_vector(2 downto 0);
+            regData1_id_in              : in std_logic_vector(31 downto 0);
+            regData2_id_in              : in std_logic_vector(31 downto 0);
             --EX-MEM
-            mem_write_en_id_in : in  std_logic;
-            mux_sell_id_in     : in std_logic_vector(2 downto 0);
-            pc_id_in           : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-            rd_id_in           : in std_logic_vector(4 downto 0);
-            reg_write_id_in    : in std_logic;
-            IsValidRD_id_in    : in std_logic;
+            mem_write_en_id_in          : in  std_logic;
+            mux_sell_id_in              : in std_logic_vector(2 downto 0);
+            pc_id_in                    : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+            rd_id_in                    : in std_logic_vector(4 downto 0);
+            reg_write_id_in             : in std_logic;
+            IsValidRD_id_in             : in std_logic;
             --memfwd
-            source_reg_id_in1  : in std_logic_vector(4 downto 0);
-            source_reg_id_in2  : in std_logic_vector(4 downto 0);
-            Branch_prediction_in  :in std_logic; 
+            source_reg_id_in1           : in std_logic_vector(4 downto 0);
+            source_reg_id_in2           : in std_logic_vector(4 downto 0);
+            Branch_prediction_in        :in std_logic; 
+            --matrixmul
+            MatrixMul_Adress1_in        : in std_logic_vector(31 downto 0);
+            MatrixMul_Adress2_in        : in std_logic_vector(31 downto 0);
+            MatrixMul_ReturnAdress_in   : in std_logic_vector(31 downto 0);
+            MatrixMul_enable_in         : in std_logic;
             
             -- Outputs to EX stage
-            immediate_id_out    : out std_logic_vector(31 downto 0);
+            immediate_id_out            : out std_logic_vector(31 downto 0);
             --MUX0 
-            ALUSrc_id_out       : out std_logic;
+            ALUSrc_id_out               : out std_logic;
             --MUX1
-            StoreSel_id_out     : out std_logic;
+            StoreSel_id_out             : out std_logic;
             --MUX2
-            Jump_id_out         : out std_logic;
+            Jump_id_out                 : out std_logic;
             --Branch-Control
-            Branch_id_out       : out std_logic_vector(2 downto 0);
+            Branch_id_out               : out std_logic_vector(2 downto 0);
             --ALU
-            ALUOp_id_out        : out std_logic_vector(2 downto 0);
-            regData1_id_out     : out std_logic_vector(31 downto 0);
-            regData2_id_out     : out std_logic_vector(31 downto 0);
+            ALUOp_id_out                : out std_logic_vector(2 downto 0);
+            regData1_id_out             : out std_logic_vector(31 downto 0);
+            regData2_id_out             : out std_logic_vector(31 downto 0);
             --EX-MEM
-            mem_write_en_id_out : out  std_logic;
-            mux_sell_id_out     : out std_logic_vector(2 downto 0);
-            pc_id_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-            rd_id_out           : out std_logic_vector(4 downto 0);
-            reg_write_id_out    : out std_logic;
-            IsValidRD_id_out    : out std_logic;
+            mem_write_en_id_out         : out  std_logic;
+            mux_sell_id_out             : out std_logic_vector(2 downto 0);
+            pc_id_out                   : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+            rd_id_out                   : out std_logic_vector(4 downto 0);
+            reg_write_id_out            : out std_logic;
+            IsValidRD_id_out            : out std_logic;
             --memfwd
-            source_reg_id_out1   : out std_logic_vector(4 downto 0);
-            source_reg_id_out2   : out std_logic_vector(4 downto 0);
-            Branch_prediction_out :out std_logic 
+            source_reg_id_out1          : out std_logic_vector(4 downto 0);
+            source_reg_id_out2          : out std_logic_vector(4 downto 0);
+            Branch_prediction_out       :out std_logic ;
+            ---matrixmul
+            MatrixMul_Adress1_out       : out std_logic_vector(31 downto 0);
+            MatrixMul_Adress2_out       : out std_logic_vector(31 downto 0);
+            MatrixMul_ReturnAdress_out  : out std_logic_vector(31 downto 0);
+            MatrixMul_enable_out        : out std_logic
         );
     end component;
 
@@ -244,6 +256,7 @@ architecture arch_DataPath of DataPath is
                 MatrixMul_Adress1_in          : in std_logic_vector(31 downto 0);
                 MatrixMul_Adress2_in          : in std_logic_vector(31 downto 0);
                 MatrixMul_ReturnAdress_in     : in std_logic_vector(31 downto 0);
+                MatrixMul_enable_in          : in std_logic;
 
             -- Outputs to MEM stage
                 ALU_result_ex_out       : out std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
@@ -260,7 +273,8 @@ architecture arch_DataPath of DataPath is
                 --MatrixMul addresses and return address
                 MatrixMul_Adress1_out          : out std_logic_vector(31 downto 0);
                 MatrixMul_Adress2_out          : out std_logic_vector(31 downto 0);
-                MatrixMul_ReturnAdress_out     : out std_logic_vector(31 downto 0)
+                MatrixMul_ReturnAdress_out     : out std_logic_vector(31 downto 0);
+                MatrixMul_enable_out           : out std_logic
         );
     end component;
 
@@ -448,6 +462,12 @@ architecture arch_DataPath of DataPath is
     --memfwd
     signal source_reg_id_out1_sig   : std_logic_vector(4 downto 0);
     signal source_reg_id_out2_sig   : std_logic_vector(4 downto 0);
+    --matrixmul
+    signal MatrixMul_Adress1_out_sig      : std_logic_vector(31 downto 0);
+    signal MatrixMul_Adress2_out_sig      : std_logic_vector(31 downto 0);
+    signal MatrixMul_ReturnAdress_out_sig : std_logic_vector(31 downto 0);
+    signal MatrixMul_enable_out_sig       : std_logic;
+    signal MatrixMul_ra_in_sig            : std_logic_vector(31 downto 0);
 
 -- EX
     --MUX0
@@ -522,6 +542,7 @@ architecture arch_DataPath of DataPath is
     signal MatrixA_1, MatrixA_2, MatrixA_3, MatrixA_4, MatrixA_5 : std_logic_vector(31 downto 0);
     signal MatrixB_1, MatrixB_2, MatrixB_3, MatrixB_4, MatrixB_5 : std_logic_vector(31 downto 0);
     signal ResultMatrixC : std_logic_vector(31 downto 0);
+    signal matrixmul_enable : std_logic;
 
 begin
 --branch_RST <= rst or PCSrc;
@@ -598,7 +619,9 @@ RFILE: Reg_File port map (
     destinyReg => rd_wb_out,
     data       => data_For_RegFile,
     readData1  => regdata1_MUX,
-    readData2  => regdata2_MUX
+    readData2  => regdata2_MUX,
+    Matrixmul_ra => MatrixMul_ra_in_sig,
+    Matrixmul_ra_src => instruction(11 downto 7)  
 );
 
 mux_rfile1_inst1: Mux_rfile1 port map (
@@ -674,6 +697,12 @@ ID_EX_REG: ID_EX port map (
     rd_id_in            => instruction(11 downto 7),
     reg_write_id_in     => reg_write_id_in,
     IsValidRD_id_in     => IsValidRD_id_in_sig,
+    --matrixmul
+    MatrixMul_Adress1_in        => regdata1_MUX,
+    MatrixMul_Adress2_in        => regdata2_MUX,
+    MatrixMul_ReturnAdress_in   => MatrixMul_ra_in_sig,
+    MatrixMul_enable_in         => '0',
+
     -- Outputs to EX stage
     immediate_id_out    => immediate_id_out,
     --MUX0
@@ -699,8 +728,14 @@ ID_EX_REG: ID_EX port map (
     source_reg_id_out1  => source_reg_id_out1_sig,
     source_reg_id_out2  => source_reg_id_out2_sig,
     Branch_prediction_in  => prediction_ID,
-	Branch_prediction_out => prediction_EX
+	Branch_prediction_out => prediction_EX,
+    --matrixmul
+    MatrixMul_Adress1_out      => MatrixMul_Adress1_out_sig,
+    MatrixMul_Adress2_out      => MatrixMul_Adress2_out_sig,
+    MatrixMul_ReturnAdress_out => MatrixMul_ReturnAdress_out_sig,
+    MatrixMul_enable_out       => MatrixMul_enable_out_sig
 );
+
 
 -- ===================== EX STAGE =====================
 Mux0_EX: Mux port map (
@@ -795,9 +830,10 @@ EX_MEM_REG: EX_MEM port map (
         reg_write_ex_in         => reg_write_ex_in,
         IsValidRD_ex_in         => IsValidRD_id_out_sig,
         --MatrixMul addresses and return address
-        MatrixMul_Adress1_in        => X"00000000",
-        MatrixMul_Adress2_in        => X"00000000",
-        MatrixMul_ReturnAdress_in   => X"00000000",
+        MatrixMul_Adress1_in        => MatrixMul_Adress1_out_sig,
+        MatrixMul_Adress2_in        => MatrixMul_Adress2_out_sig,
+        MatrixMul_ReturnAdress_in   => MatrixMul_ReturnAdress_out_sig,
+        MatrixMul_enable_in            => MatrixMul_enable_out_sig,
 
     -- Outputs to MEM stage
         ALU_result_ex_out       => ALU_result_ex_out,
@@ -814,7 +850,8 @@ EX_MEM_REG: EX_MEM port map (
         --MatrixMul addresses and return address
         MatrixMul_Adress1_out        => VectorAddress_1,
         MatrixMul_Adress2_out        => VectorAddress_2,
-        MatrixMul_ReturnAdress_out   => mem_matrix_ra
+        MatrixMul_ReturnAdress_out   => mem_matrix_ra,
+        MatrixMul_enable_out            => matrixmul_enable
 );
 
 -- ===================== MEM STAGE =====================
@@ -822,14 +859,14 @@ EX_MEM_REG: EX_MEM port map (
 Mux_RAM_Data: Mux port map (
     muxIn0   => mem_write_data_ex_out,
     muxIn1   => ResultMatrixC,
-    selector => '0',
+    selector => matrixmul_enable,
     muxOut   => mem_mux_data
 );
 
 Mux_RAM_Address: Mux port map (
     muxIn0   =>  ALU_result_ex_out,
     muxIn1   =>  mem_matrix_ra,
-    selector => '0' ,
+    selector =>  matrixmul_enable,
     muxOut   =>  mem_mux_adress
 );
 

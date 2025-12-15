@@ -32,62 +32,71 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity ID_EX is
-port (
-        clk                 : in std_logic;
-        rst                 : in std_logic;
-        enable              : in std_logic;
-        -- inputs to EX stage
-        immediate_id_in    : in std_logic_vector(31 downto 0);
-        --MUX0 
-        ALUSrc_id_in       : in std_logic;
-        --MUX1
-        StoreSel_id_in     : in std_logic;
-        --MUX2
-        Jump_id_in         : in std_logic;
-        --Branch-Control
-        Branch_id_in       : in std_logic_vector(2 downto 0);
-        --ALU
-        ALUOp_id_in        : in std_logic_vector(2 downto 0);
-        regData1_id_in     : in std_logic_vector(31 downto 0);
-        regData2_id_in     : in std_logic_vector(31 downto 0);
-        --EX-MEM
-        mem_write_en_id_in : in  std_logic;
-        mux_sell_id_in     : in std_logic_vector(2 downto 0);
-        pc_id_in           : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-        rd_id_in           : in std_logic_vector(4 downto 0);
-        reg_write_id_in    : in std_logic;
-        IsValidRD_id_in    : in std_logic;
-        --memfwd
-        source_reg_id_in1  : in std_logic_vector(4 downto 0);
-        source_reg_id_in2  : in std_logic_vector(4 downto 0);
-        Branch_prediction_in  :in std_logic; 
-		
-        -- Outputs to EX stage
-        immediate_id_out    : out std_logic_vector(31 downto 0);
-        --MUX0 
-        ALUSrc_id_out       : out std_logic;
-        --MUX1
-        StoreSel_id_out     : out std_logic;
-        --MUX2
-        Jump_id_out         : out std_logic;
-        --Branch-Control
-        Branch_id_out       : out std_logic_vector(2 downto 0);
-        --ALU
-        ALUOp_id_out        : out std_logic_vector(2 downto 0);
-        regData1_id_out     : out std_logic_vector(31 downto 0);
-        regData2_id_out     : out std_logic_vector(31 downto 0);
-        --EX-MEM
-        mem_write_en_id_out : out  std_logic;
-        mux_sell_id_out     : out std_logic_vector(2 downto 0);
-        pc_id_out           : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
-        rd_id_out           : out std_logic_vector(4 downto 0);
-        reg_write_id_out    : out std_logic;
-        IsValidRD_id_out    : out std_logic;
-        --memfwd
-        source_reg_id_out1   : out std_logic_vector(4 downto 0);
-        source_reg_id_out2   : out std_logic_vector(4 downto 0);
-        Branch_prediction_out :out std_logic 
-    
+    port (
+            clk                         : in std_logic;
+            rst                         : in std_logic;
+            enable                      : in std_logic;
+            -- inputs to EX stage
+            immediate_id_in             : in std_logic_vector(31 downto 0);
+            --MUX0 
+            ALUSrc_id_in                : in std_logic;
+            --MUX1
+            StoreSel_id_in              : in std_logic;
+            --MUX2
+            Jump_id_in                  : in std_logic;
+            --Branch-Control
+            Branch_id_in                : in std_logic_vector(2 downto 0);
+            --ALU
+            ALUOp_id_in                 : in std_logic_vector(2 downto 0);
+            regData1_id_in              : in std_logic_vector(31 downto 0);
+            regData2_id_in              : in std_logic_vector(31 downto 0);
+            --EX-MEM
+            mem_write_en_id_in          : in  std_logic;
+            mux_sell_id_in              : in std_logic_vector(2 downto 0);
+            pc_id_in                    : in std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+            rd_id_in                    : in std_logic_vector(4 downto 0);
+            reg_write_id_in             : in std_logic;
+            IsValidRD_id_in             : in std_logic;
+            --memfwd
+            source_reg_id_in1           : in std_logic_vector(4 downto 0);
+            source_reg_id_in2           : in std_logic_vector(4 downto 0);
+            Branch_prediction_in        :in std_logic; 
+            --matrixmul
+            MatrixMul_Adress1_in        : in std_logic_vector(31 downto 0);
+            MatrixMul_Adress2_in        : in std_logic_vector(31 downto 0);
+            MatrixMul_ReturnAdress_in   : in std_logic_vector(31 downto 0);
+            MatrixMul_enable_in         : in std_logic;
+            
+            -- Outputs to EX stage
+            immediate_id_out            : out std_logic_vector(31 downto 0);
+            --MUX0 
+            ALUSrc_id_out               : out std_logic;
+            --MUX1
+            StoreSel_id_out             : out std_logic;
+            --MUX2
+            Jump_id_out                 : out std_logic;
+            --Branch-Control
+            Branch_id_out               : out std_logic_vector(2 downto 0);
+            --ALU
+            ALUOp_id_out                : out std_logic_vector(2 downto 0);
+            regData1_id_out             : out std_logic_vector(31 downto 0);
+            regData2_id_out             : out std_logic_vector(31 downto 0);
+            --EX-MEM
+            mem_write_en_id_out         : out  std_logic;
+            mux_sell_id_out             : out std_logic_vector(2 downto 0);
+            pc_id_out                   : out std_logic_vector(31 downto 0); -- ALU     (MUX3&MUX5)
+            rd_id_out                   : out std_logic_vector(4 downto 0);
+            reg_write_id_out            : out std_logic;
+            IsValidRD_id_out            : out std_logic;
+            --memfwd
+            source_reg_id_out1          : out std_logic_vector(4 downto 0);
+            source_reg_id_out2          : out std_logic_vector(4 downto 0);
+            Branch_prediction_out       :out std_logic ;
+            ---matrixmul
+            MatrixMul_Adress1_out       : out std_logic_vector(31 downto 0);
+            MatrixMul_Adress2_out       : out std_logic_vector(31 downto 0);
+            MatrixMul_ReturnAdress_out  : out std_logic_vector(31 downto 0);
+            MatrixMul_enable_out        : out std_logic
     );
 end ID_EX;
 
@@ -122,6 +131,11 @@ begin
                 source_reg_id_out1      <= (others => '0');
                 source_reg_id_out2      <= (others => '0');
                 Branch_prediction_out <= '0';
+                --matrixmul
+                MatrixMul_Adress1_out       <= (others => '0');
+                MatrixMul_Adress2_out       <= (others => '0');
+                MatrixMul_ReturnAdress_out  <= (others => '0');
+                MatrixMul_enable_out        <= '0';
 
             else
                 if enable = '1' then
@@ -149,6 +163,11 @@ begin
                     source_reg_id_out1      <= source_reg_id_in1;
                     source_reg_id_out2      <= source_reg_id_in2;
                     Branch_prediction_out  <= Branch_prediction_in;
+                    --matrixmul
+                    MatrixMul_Adress1_out       <= MatrixMul_Adress1_in;
+                    MatrixMul_Adress2_out       <= MatrixMul_Adress2_in;
+                    MatrixMul_ReturnAdress_out  <= MatrixMul_ReturnAdress_in;
+                    MatrixMul_enable_out        <= MatrixMul_enable_in;
                 end if;
             end if;
         end if;
