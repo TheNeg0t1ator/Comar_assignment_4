@@ -36,6 +36,7 @@ port (
             clk                         : in  std_logic;
             rst                         : in  std_logic;
             enable                      : in  std_logic;
+            Mul_ready                   : in  std_logic;
             -- Inputs from EX stage
                 ALU_result_ex_in        : in std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
             -- RAM
@@ -101,6 +102,7 @@ begin
                 -- RAM
                     mem_write_en_ex_out     <= mem_write_en_ex_in;
                     mem_write_data_ex_out   <= mem_write_data_ex_in;
+                    
                     MatrixMul_enable_out           <= MatrixMul_enable_in;
                     MatrixMul_Result_out           <= MatrixMul_Result_in;
                     MatrixMul_ReturnAdress_out     <= MatrixMul_ReturnAdress_in;
@@ -111,6 +113,11 @@ begin
                     rd_ex_out               <= rd_ex_in;
                     reg_write_ex_out        <= reg_write_ex_in;
                     IsValidRD_ex_out        <= IsValidRD_ex_in;
+                else 
+                if Mul_ready = '1' then
+                    MatrixMul_Result_out           <= MatrixMul_Result_in;
+                    MUL_result_ex_out       <= MUL_result_ex_in;
+                end if;
                 end if;
             end if;
         end if;

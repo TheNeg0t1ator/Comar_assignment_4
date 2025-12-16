@@ -33,6 +33,8 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity MatrixMul is
   Port (
+    clk       : in  std_logic;
+    rst       : in  std_logic;
     -- 5 inputs for Matrix A
     MatrixA_1       : in  STD_LOGIC_VECTOR (31 downto 0);
     MatrixA_2       : in  STD_LOGIC_VECTOR (31 downto 0);
@@ -55,9 +57,11 @@ architecture Behavioral of MatrixMul is
 
     component multiplier
         port (
-            operator1   : in std_logic_vector(32-1 downto 0);
-            operator2   : in std_logic_vector(32-1 downto 0);
-            product     : out std_logic_vector(2*32-1 downto 0)
+        clk       : in  std_logic;
+        rst       : in  std_logic;
+        operator1 : in  std_logic_vector(31 downto 0);
+        operator2 : in  std_logic_vector(31 downto 0);
+        product   : out std_logic_vector(63 downto 0)
         );
     end component;
 
@@ -69,6 +73,8 @@ begin
 
 MUL1: multiplier
     port map (
+        clk       => clk,
+        rst       => rst,
         operator1 => MatrixA_1,
         operator2 => MatrixB_1,
         product   => output_product1
@@ -76,6 +82,8 @@ MUL1: multiplier
 
 MUL2: multiplier
     port map (
+        clk       => clk,
+        rst       => rst,
         operator1 => MatrixA_2,
         operator2 => MatrixB_2,
         product   => output_product2
@@ -83,6 +91,8 @@ MUL2: multiplier
 
 MUL3: multiplier
     port map (
+        clk       => clk,
+        rst       => rst,
         operator1 => MatrixA_3,
         operator2 => MatrixB_3,
         product   => output_product3
@@ -90,6 +100,8 @@ MUL3: multiplier
 
 MUL4: multiplier
     port map (
+        clk       => clk,
+        rst       => rst,
         operator1 => MatrixA_4,
         operator2 => MatrixB_4,
         product   => output_product4
@@ -97,6 +109,8 @@ MUL4: multiplier
 
 MUL5: multiplier
     port map (
+        clk       => clk,
+        rst       => rst,
         operator1 => MatrixA_5,
         operator2 => MatrixB_5,
         product   => output_product5

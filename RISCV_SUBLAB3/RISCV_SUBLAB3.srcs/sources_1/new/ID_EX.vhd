@@ -62,8 +62,6 @@ entity ID_EX is
             source_reg_id_in2           : in std_logic_vector(4 downto 0);
             Branch_prediction_in        :in std_logic; 
             --matrixmul
-            MatrixMul_Adress1_in        : in std_logic_vector(31 downto 0);
-            MatrixMul_Adress2_in        : in std_logic_vector(31 downto 0);
             MatrixMul_ReturnAdress_in   : in std_logic_vector(31 downto 0);
             MatrixMul_enable_in         : in std_logic;
             
@@ -93,8 +91,6 @@ entity ID_EX is
             source_reg_id_out2          : out std_logic_vector(4 downto 0);
             Branch_prediction_out       :out std_logic ;
             ---matrixmul
-            MatrixMul_Adress1_out       : out std_logic_vector(31 downto 0);
-            MatrixMul_Adress2_out       : out std_logic_vector(31 downto 0);
             MatrixMul_ReturnAdress_out  : out std_logic_vector(31 downto 0);
             MatrixMul_enable_out        : out std_logic
     );
@@ -132,8 +128,6 @@ begin
                 source_reg_id_out2      <= (others => '0');
                 Branch_prediction_out <= '0';
                 --matrixmul
-                MatrixMul_Adress1_out       <= (others => '0');
-                MatrixMul_Adress2_out       <= (others => '0');
                 MatrixMul_ReturnAdress_out  <= (others => '0');
                 MatrixMul_enable_out        <= '0';
 
@@ -164,8 +158,6 @@ begin
                     source_reg_id_out2      <= source_reg_id_in2;
                     Branch_prediction_out  <= Branch_prediction_in;
                     --matrixmul
-                    MatrixMul_Adress1_out       <= MatrixMul_Adress1_in;
-                    MatrixMul_Adress2_out       <= MatrixMul_Adress2_in;
                     MatrixMul_ReturnAdress_out  <= MatrixMul_ReturnAdress_in;
                     MatrixMul_enable_out        <= MatrixMul_enable_in;
                 end if;

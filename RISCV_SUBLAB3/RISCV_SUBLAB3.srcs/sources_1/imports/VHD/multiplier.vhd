@@ -1,44 +1,83 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-use ieee.std_logic_unsigned.all;
 
 entity multiplier is
-    generic(size: INTEGER := 32);
-    port (
-        operator1 : in  std_logic_vector(size-1 downto 0);
-        operator2 : in  std_logic_vector(size-1 downto 0);
-        product   : out std_logic_vector(2*size-1 downto 0)
+    generic (
+        SIZE        : integer := 32;
+        PIPE_STAGES : integer := 5   -- set to 4 or 5
     );
-end entity multiplier;
+    port (
+        clk       : in  std_logic;
+        rst       : in  std_logic;
+        operator1 : in  std_logic_vector(SIZE-1 downto 0);
+        operator2 : in  std_logic_vector(SIZE-1 downto 0);
+        product   : out std_logic_vector(2*SIZE-1 downto 0)
+    );
+end entity;
 
-architecture arch_multiplier of multiplier is
+architecture rtl of multiplier is
 
-    signal shiftNumb : std_logic_vector(4 downto 0);
-    signal shift1l, shift2l, shift4l, shift8l, shift16l : std_logic_vector(31 downto 0);
-    signal partial : std_logic_vector(63 downto 0);
+    constant CHUNK : integer := SIZE / PIPE_STAGES;
+
+    type op_pipe_t is array (0 to PIPE_STAGES-1) of unsigned(SIZE-1 downto 0);
+    type acc_pipe_t is array (0 to PIPE_STAGES-1) of unsigned(2*SIZE-1 downto 0);
+
+    signal a_pipe : op_pipe_t;
+    signal b_pipe : op_pipe_t;
+    signal acc    : acc_pipe_t;
 
 begin
 
-    process(operator1, operator2)
-        variable op1   : unsigned(31 downto 0);
-        variable op2   : unsigned(31 downto 0);
-        variable result_var : unsigned(63 downto 0);
-        variable temp_shift : unsigned(63 downto 0);
+    process(clk)
+        variable part : unsigned(2*SIZE-1 downto 0);
     begin
-        op1 := unsigned(operator1);
-        op2 := unsigned(operator2);
-        result_var := (others => '0');
+        if rising_edge(clk) then
+            if rst = '0' then
+                for i in 0 to PIPE_STAGES-1 loop
+                    a_pipe(i) <= (others => '0');
+                    b_pipe(i) <= (others => '0');
+                    acc(i)    <= (others => '0');
+                end loop;
+            else
+                ----------------------------------------------------------------
+                -- Stage 0
+                ----------------------------------------------------------------
+                a_pipe(0) <= unsigned(operator1);
+                b_pipe(0) <= unsigned(operator2);
 
-        -- Loop over each bit of operator2
-        for i in 0 to 31 loop
-            if op2(i) = '1' then
-                temp_shift := shift_left(resize(op1, 64), i);
-                result_var := result_var + temp_shift;
+                part :=
+                    resize(
+                        unsigned(operator1) *
+                        resize(unsigned(operator2(CHUNK-1 downto 0)), SIZE),
+                        2*SIZE
+                    );
+
+                acc(0) <= part;
+
+                ----------------------------------------------------------------
+                -- Remaining pipeline stages
+                ----------------------------------------------------------------
+                for i in 1 to PIPE_STAGES-1 loop
+                    a_pipe(i) <= a_pipe(i-1);
+                    b_pipe(i) <= b_pipe(i-1);
+
+                    part :=
+                        resize(
+                            a_pipe(i-1) *
+                            resize(
+                                b_pipe(i-1)((i+1)*CHUNK-1 downto i*CHUNK),
+                                SIZE
+                            ),
+                            2*SIZE
+                        ) sll (i*CHUNK);
+
+                    acc(i) <= acc(i-1) + part;
+                end loop;
             end if;
-        end loop;
-
-        product <= std_logic_vector(result_var);
+        end if;
     end process;
 
-end architecture arch_multiplier;
+    product <= std_logic_vector(acc(PIPE_STAGES-1));
+
+end architecture;
