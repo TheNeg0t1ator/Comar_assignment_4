@@ -49,9 +49,8 @@ port (
                 reg_write_ex_in         : in std_logic;
                 IsValidRD_ex_in         : in std_logic;
                 --MatrixMul addresses and return address
-                MatrixMul_Adress1_in          : in std_logic_vector(31 downto 0);
-                MatrixMul_Adress2_in          : in std_logic_vector(31 downto 0);
-                MatrixMul_ReturnAdress_in     : in std_logic_vector(31 downto 0);
+                MatrixMul_Result_in          : in std_logic_vector(31 downto 0);
+                MatrixMul_ReturnAdress_in    : in std_logic_vector(31 downto 0);
                 MatrixMul_enable_in          : in std_logic;
 
             -- Outputs to MEM stage
@@ -67,8 +66,7 @@ port (
                 reg_write_ex_out        : out std_logic;
                 IsValidRD_ex_out        : out std_logic;
                 --MatrixMul addresses and return address
-                MatrixMul_Adress1_out          : out std_logic_vector(31 downto 0);
-                MatrixMul_Adress2_out          : out std_logic_vector(31 downto 0);
+                MatrixMul_Result_out            : out std_logic_vector(31 downto 0);
                 MatrixMul_ReturnAdress_out     : out std_logic_vector(31 downto 0);
                 MatrixMul_enable_out           : out std_logic
         );
@@ -93,8 +91,7 @@ begin
                     reg_write_ex_out        <= '0';
                     IsValidRD_ex_out        <= '0';
                 --MatrixMul addresses and return address
-                    MatrixMul_Adress1_out          <= (others => '0');
-                    MatrixMul_Adress2_out          <= (others => '0');
+                    MatrixMul_Result_out           <= (others => '0');
                     MatrixMul_ReturnAdress_out     <= (others => '0');
                     MatrixMul_enable_out           <= '0';
                 else
@@ -105,8 +102,7 @@ begin
                     mem_write_en_ex_out     <= mem_write_en_ex_in;
                     mem_write_data_ex_out   <= mem_write_data_ex_in;
                     MatrixMul_enable_out           <= MatrixMul_enable_in;
-                    MatrixMul_Adress1_out          <= MatrixMul_Adress1_in;
-                    MatrixMul_Adress2_out          <= MatrixMul_Adress2_in;
+                    MatrixMul_Result_out           <= MatrixMul_Result_in;
                     MatrixMul_ReturnAdress_out     <= MatrixMul_ReturnAdress_in;
                 --MEM_WB
                     mux_sell_ex_out         <= mux_sell_ex_in;

@@ -33,6 +33,7 @@ Compiling architecture behavioral of entity xil_defaultlib.Mux_ramfwd [mux_ramfw
 Compiling architecture behavioral of entity xil_defaultlib.memfwd [memfwd_default]
 Compiling architecture behavioral of entity xil_defaultlib.EX_MEM [ex_mem_default]
 Compiling architecture arch_data_mem of entity xil_defaultlib.Data_Mem [data_mem_default]
+Compiling architecture behavioral of entity xil_defaultlib.MatrixMul [matrixmul_default]
 Compiling architecture behavioral of entity xil_defaultlib.MEM_WB [mem_wb_default]
 Compiling architecture arch_mux_toregfile of entity xil_defaultlib.Mux_ToRegFile [mux_toregfile_default]
 Compiling architecture arch_datapath of entity xil_defaultlib.DataPath [datapath_default]

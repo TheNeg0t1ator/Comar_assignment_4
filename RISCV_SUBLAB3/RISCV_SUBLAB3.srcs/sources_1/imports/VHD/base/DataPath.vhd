@@ -237,7 +237,7 @@ architecture arch_DataPath of DataPath is
     end component;
 
     component EX_MEM
-    port (
+   port (
             clk                         : in  std_logic;
             rst                         : in  std_logic;
             enable                      : in  std_logic;
@@ -254,9 +254,8 @@ architecture arch_DataPath of DataPath is
                 reg_write_ex_in         : in std_logic;
                 IsValidRD_ex_in         : in std_logic;
                 --MatrixMul addresses and return address
-                MatrixMul_Adress1_in          : in std_logic_vector(31 downto 0);
-                MatrixMul_Adress2_in          : in std_logic_vector(31 downto 0);
-                MatrixMul_ReturnAdress_in     : in std_logic_vector(31 downto 0);
+                MatrixMul_Result_in          : in std_logic_vector(31 downto 0);
+                MatrixMul_ReturnAdress_in    : in std_logic_vector(31 downto 0);
                 MatrixMul_enable_in          : in std_logic;
 
             -- Outputs to MEM stage
@@ -272,8 +271,7 @@ architecture arch_DataPath of DataPath is
                 reg_write_ex_out        : out std_logic;
                 IsValidRD_ex_out        : out std_logic;
                 --MatrixMul addresses and return address
-                MatrixMul_Adress1_out          : out std_logic_vector(31 downto 0);
-                MatrixMul_Adress2_out          : out std_logic_vector(31 downto 0);
+                MatrixMul_Result_out            : out std_logic_vector(31 downto 0);
                 MatrixMul_ReturnAdress_out     : out std_logic_vector(31 downto 0);
                 MatrixMul_enable_out           : out std_logic
         );
@@ -540,9 +538,8 @@ architecture arch_DataPath of DataPath is
     signal RST_Branch : std_logic;
 
     --matrix multiplier signals
-    signal MatrixA_1, MatrixA_2, MatrixA_3, MatrixA_4, MatrixA_5 : std_logic_vector(31 downto 0);
-    signal MatrixB_1, MatrixB_2, MatrixB_3, MatrixB_4, MatrixB_5 : std_logic_vector(31 downto 0);
     signal ResultMatrixC : std_logic_vector(31 downto 0);
+    signal ResultMatrix_mem :std_logic_vector(31 downto 0);
     signal matrixmul_enable : std_logic;
     signal Ctrl_MatrixMul_enable : std_logic;
 
@@ -833,11 +830,9 @@ EX_MEM_REG: EX_MEM port map (
         reg_write_ex_in         => reg_write_ex_in,
         IsValidRD_ex_in         => IsValidRD_id_out_sig,
         --MatrixMul addresses and return address
-        MatrixMul_Adress1_in        => MatrixMul_Adress1_out_sig,
-        MatrixMul_Adress2_in        => MatrixMul_Adress2_out_sig,
         MatrixMul_ReturnAdress_in   => MatrixMul_ReturnAdress_out_sig,
         MatrixMul_enable_in            => MatrixMul_enable_out_sig,
-
+        MatrixMul_Result_in         => ResultMatrixC,
     -- Outputs to MEM stage
         ALU_result_ex_out       => ALU_result_ex_out,
     -- RAM
@@ -851,8 +846,7 @@ EX_MEM_REG: EX_MEM port map (
         reg_write_ex_out        => reg_write_wb_in,
         IsValidRD_ex_out        => Valid_rd_mem_signal,
         --MatrixMul addresses and return address
-        MatrixMul_Adress1_out        => VectorAddress_1,
-        MatrixMul_Adress2_out        => VectorAddress_2,
+        MatrixMul_Result_out         => ResultMatrix_mem,
         MatrixMul_ReturnAdress_out   => mem_matrix_ra,
         MatrixMul_enable_out            => matrixmul_enable
 );
@@ -861,7 +855,7 @@ EX_MEM_REG: EX_MEM port map (
 
 Mux_RAM_Data: Mux port map (
     muxIn0   => mem_write_data_ex_out,
-    muxIn1   => ResultMatrixC,
+    muxIn1   => ResultMatrix_mem,
     selector => matrixmul_enable,
     muxOut   => mem_mux_data
 );
@@ -881,8 +875,8 @@ RAM: Data_Mem port map (
     dataOut => mem_data_wb_in,
 
         --matrix mul data IO
-    Vaddr_1 => VectorAddress_1(7 downto 0), -- matrix a
-    Vaddr_2 => VectorAddress_2(7 downto 0), -- matrix b
+    Vaddr_1 => regData1_id_out(7 downto 0), -- matrix a
+    Vaddr_2 => regData2_id_out(7 downto 0), -- matrix b
     Vdata_1 => VectorData_1,
     Vdata_2 => VectorData_2
 );

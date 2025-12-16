@@ -157,7 +157,7 @@ begin
                                 WriteReg    <= '1';
                                 IsValidRD   <= '1';
                                 IsMatrixMul <= '0';
-                            when "00000001" =>              --REM (MatrixMul)
+                            when "0000001" =>              --REM (MatrixMul)
                                 jump        <= '0';
                                 Branch      <= "000";
                                 ToRegister  <= "000";
