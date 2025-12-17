@@ -236,7 +236,7 @@ architecture arch_DataPath of DataPath is
     end component;
 
     component EX_MEM
-   port (
+port (
             clk                         : in  std_logic;
             rst                         : in  std_logic;
             enable                      : in  std_logic;
@@ -256,7 +256,6 @@ architecture arch_DataPath of DataPath is
                 --MatrixMul addresses and return address
                 MatrixMul_Result_in          : in std_logic_vector(31 downto 0);
                 MatrixMul_ReturnAdress_in    : in std_logic_vector(31 downto 0);
-                MatrixMul_enable_in          : in std_logic;
 
             -- Outputs to MEM stage
                 ALU_result_ex_out       : out std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
@@ -273,7 +272,7 @@ architecture arch_DataPath of DataPath is
                 --MatrixMul addresses and return address
                 MatrixMul_Result_out            : out std_logic_vector(31 downto 0);
                 MatrixMul_ReturnAdress_out     : out std_logic_vector(31 downto 0);
-                MatrixMul_enable_out           : out std_logic
+                MatrixMul_Write_out           : out std_logic
         );
     end component;
 
@@ -858,7 +857,6 @@ EX_MEM_REG: EX_MEM port map (
         IsValidRD_ex_in         => IsValidRD_id_out_sig,
         --MatrixMul addresses and return address
         MatrixMul_ReturnAdress_in   => MatrixMul_ReturnAdress_out_sig,
-        MatrixMul_enable_in         => MatrixMul_enable_out_sig,
         MatrixMul_Result_in         => ResultMatrixC,
     -- Outputs to MEM stage
         ALU_result_ex_out       => ALU_result_ex_out,
@@ -875,7 +873,7 @@ EX_MEM_REG: EX_MEM port map (
         --MatrixMul addresses and return address
         MatrixMul_Result_out         => ResultMatrix_mem,
         MatrixMul_ReturnAdress_out   => mem_matrix_ra,
-        MatrixMul_enable_out            => matrixmul_enable
+        MatrixMul_Write_out            => matrixmul_enable
 );
 
 -- ===================== MEM STAGE =====================

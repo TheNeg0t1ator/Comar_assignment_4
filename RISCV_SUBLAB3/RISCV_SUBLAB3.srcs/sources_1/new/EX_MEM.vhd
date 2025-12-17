@@ -52,7 +52,6 @@ port (
                 --MatrixMul addresses and return address
                 MatrixMul_Result_in          : in std_logic_vector(31 downto 0);
                 MatrixMul_ReturnAdress_in    : in std_logic_vector(31 downto 0);
-                MatrixMul_enable_in          : in std_logic;
 
             -- Outputs to MEM stage
                 ALU_result_ex_out       : out std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
@@ -69,12 +68,15 @@ port (
                 --MatrixMul addresses and return address
                 MatrixMul_Result_out            : out std_logic_vector(31 downto 0);
                 MatrixMul_ReturnAdress_out     : out std_logic_vector(31 downto 0);
-                MatrixMul_enable_out           : out std_logic
+                MatrixMul_Write_out           : out std_logic
         );
 end EX_MEM;
 
 architecture Behavioral of EX_MEM is
+signal MatrixMul_Write_out_sig :std_logic;
+signal mem_write_en_latched :std_logic;
 begin
+    mem_write_en_ex_out <= mem_write_en_latched and enable;
     Process(clk)
         begin
             if rising_edge(clk) then
@@ -82,7 +84,7 @@ begin
                 -- Outputs to MEM stage
                     ALU_result_ex_out       <= (others => '0');
                 -- RAM
-                    mem_write_en_ex_out     <= '0';
+                    mem_write_en_latched     <= '0';
                     mem_write_data_ex_out   <= (others => '0');
                 --MEM_WB
                     mux_sell_ex_out         <= (others => '0');
@@ -94,16 +96,15 @@ begin
                 --MatrixMul addresses and return address
                     MatrixMul_Result_out           <= (others => '0');
                     MatrixMul_ReturnAdress_out     <= (others => '0');
-                    MatrixMul_enable_out           <= '0';
+                    MatrixMul_Write_out           <= '0';
                 else
                 if enable = '1' then
                 -- Outputs to MEM stage
                     ALU_result_ex_out       <= ALU_result_ex_in;
                 -- RAM
-                    mem_write_en_ex_out     <= mem_write_en_ex_in;
+                    mem_write_en_latched     <= mem_write_en_ex_in;
                     mem_write_data_ex_out   <= mem_write_data_ex_in;
-                    
-                    MatrixMul_enable_out           <= MatrixMul_enable_in;
+                    MatrixMul_Write_out_sig <= mem_write_en_ex_in;
                     MatrixMul_Result_out           <= MatrixMul_Result_in;
                     MatrixMul_ReturnAdress_out     <= MatrixMul_ReturnAdress_in;
                 --MEM_WB
@@ -113,10 +114,16 @@ begin
                     rd_ex_out               <= rd_ex_in;
                     reg_write_ex_out        <= reg_write_ex_in;
                     IsValidRD_ex_out        <= IsValidRD_ex_in;
+                    MatrixMul_Write_out     <= '0';
                 else 
+                
                 if Mul_ready = '1' then
+                    if MatrixMul_Write_out_sig  = '1' then
+                        MatrixMul_Write_out  <= '1';
+                    end if;
                     MatrixMul_Result_out           <= MatrixMul_Result_in;
                     MUL_result_ex_out       <= MUL_result_ex_in;
+                    
                 end if;
                 end if;
             end if;
