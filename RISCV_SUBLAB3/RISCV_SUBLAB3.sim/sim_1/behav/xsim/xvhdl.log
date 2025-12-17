@@ -1,2 +1,4 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_SUBLAB3/RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Instruction_Mem.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'Instruction_Mem'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_SUBLAB3/RISCV_SUBLAB3.srcs/sources_1/new/Stall_unit.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'mul_stall_ctrl'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/seppe/Documents/GitHub/Comar_assignment_4/RISCV_SUBLAB3/RISCV_SUBLAB3.srcs/sim_1/imports/testbenches/DataPath_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'DataPath_tb'

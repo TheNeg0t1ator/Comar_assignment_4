@@ -20,6 +20,7 @@ vhdl xil_defaultlib  \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/new/Mux_rfile1.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/PC.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/base/Reg_File.vhd" \
+"../../../../RISCV_SUBLAB3.srcs/sources_1/new/Stall_unit.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/if_id.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/new/memfwd.vhd" \
 "../../../../RISCV_SUBLAB3.srcs/sources_1/imports/VHD/multiplier.vhd" \

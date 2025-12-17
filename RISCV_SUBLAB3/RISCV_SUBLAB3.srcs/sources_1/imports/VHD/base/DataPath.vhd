@@ -230,7 +230,8 @@ architecture arch_DataPath of DataPath is
             Branch_prediction_out       :out std_logic ;
             ---matrixmul
             MatrixMul_ReturnAdress_out  : out std_logic_vector(31 downto 0);
-            MatrixMul_enable_out        : out std_logic
+            MatrixMul_enable_out        : out std_logic;
+            start_mul  : out  std_logic
         );
     end component;
 
@@ -398,13 +399,11 @@ architecture arch_DataPath of DataPath is
     end component;
     
     component mul_stall_ctrl port (
-            clk            : in  std_logic;
-            rst            : in  std_logic;
-            PC_EX          : in  std_logic_vector(31 downto 0);
-            Vecmul_enable  : in  std_logic;
-            mul_enable     : in  std_logic_vector(2 downto 0);
-            stall          : out std_logic;
-            mul_ready     : out std_logic   -- HIGH one cycle before stall ends
+        clk        : in  std_logic;
+        rst        : in  std_logic;
+        start_mul  : in  std_logic;  -- 1-cycle pulse from ID/EX
+        stall      : out std_logic;
+        mul_ready  : out std_logic
         );
      end component;
 
@@ -549,11 +548,11 @@ architecture arch_DataPath of DataPath is
     signal reg_write_wb_out    : std_logic;
 
     signal data_For_RegFile : std_logic_vector(31 downto 0);
-    signal branch_rst :std_logic;
+    signal branch_rst :std_logic;   
     signal prediction_IF, prediction_ID , prediction_EX :std_logic;
     signal RST_Branch : std_logic;
     signal Mul_ready  : std_logic;
-
+    signal start_mul_sig: std_logic;
 -- Stalling
 signal MuxPredict_out : std_logic_vector(31 downto 0);
 signal Stall :std_logic; -- active low
@@ -750,7 +749,8 @@ ID_EX_REG: ID_EX port map (
 	Branch_prediction_out => prediction_EX,
     --matrixmul
     MatrixMul_ReturnAdress_out => MatrixMul_ReturnAdress_out_sig,
-    MatrixMul_enable_out       => MatrixMul_enable_out_sig
+    MatrixMul_enable_out       => MatrixMul_enable_out_sig,
+    start_mul                  => start_mul_sig
 );
 
 
@@ -827,9 +827,7 @@ mufwd_unit: memfwd port map (
 stall_unit: mul_stall_ctrl port map (
     clk             => clk,
     rst             => rst,
-    PC_EX           => pc_ex_in,
-    Vecmul_enable   => MatrixMul_enable_out_sig,
-    mul_enable      => mux_sell_ex_in,
+    start_mul       => start_mul_sig,
     stall           =>Stall,
     mul_ready       =>Mul_ready
 );
