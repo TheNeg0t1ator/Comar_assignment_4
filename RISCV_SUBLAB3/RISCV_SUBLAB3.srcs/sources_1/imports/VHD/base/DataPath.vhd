@@ -476,12 +476,6 @@ architecture arch_DataPath of DataPath is
     --ALU
     signal signo, zero, carry: std_logic;
 
-    --Mux_ramfwd
-    signal mux_ramfwd_out1 : std_logic_vector(31 downto 0);
-    signal mux_ramfwd_out2 : std_logic_vector(31 downto 0);
-    signal ramfwd_selector1 : std_logic_vector(1 downto 0);
-    signal ramfwd_selector2 : std_logic_vector(1 downto 0);
-
 -- EX-MEM reg
     -- Inputs from EX stage
     signal ALU_result_ex_in        : std_logic_vector(31 downto 0); -- ALU     (MUX0)& (RAM ADDRESS)
@@ -740,13 +734,13 @@ ID_EX_REG: ID_EX port map (
 -- ===================== EX STAGE =====================
 Mux0_EX: Mux port map (
     muxIn0   => immediate_id_out,
-    muxIn1   => mux_ramfwd_out2,
+    muxIn1   => regData2_id_out,
     selector => ALUSrc_id_out,
     muxOut   => op2_ex
 );
 
 ALU: ALU_RV32 port map (
-    operator1 => mux_ramfwd_out1,
+    operator1 => regData1_id_out,
     operator2 => op2_ex,
     ALUOp     => ALUOp_id_out,
     result    => ALU_result_ex_in,
@@ -756,13 +750,13 @@ ALU: ALU_RV32 port map (
 );
 
 MUL: multiplier port map (
-    operator1 => mux_ramfwd_out1,
+    operator1 => regData1_id_out,
     operator2 => op2_ex,
     product   => MUL_result_ex_in
 );
 
 Mux1: Mux port map (
-    muxIn0   => mux_ramfwd_out2,
+    muxIn0   => regData2_id_out,
     muxIn1   => regData2Anded,
     selector => StoreSel_id_out,
     muxOut   => mem_write_data_ex_in
@@ -782,32 +776,8 @@ Mux2: Mux port map (
     muxOut   => offset
 );
 
-mux_ramfwd_1: Mux_ramfwd port map (
-    SourceReg       => regData1_id_out,
-    MEM_LOAD_WORD   => mem_data_wb_in,
-    Output          => mux_ramfwd_out1,
-    selector        => ramfwd_selector1
-);
-
-mux_ramfwd_2: Mux_ramfwd port map (
-    SourceReg       => regData2_id_out,
-    MEM_LOAD_WORD   => mem_data_wb_in,
-    Output          => mux_ramfwd_out2,
-    selector        => ramfwd_selector2
-);
-
-mufwd_unit: memfwd port map (
-    selector1        => ramfwd_selector1,
-    selector2        => ramfwd_selector2,
-    ex_source_reg1   => source_reg_id_out1_sig,
-    ex_source_reg2   => source_reg_id_out2_sig,
-    mem_rd           => rd_wb_in,
-    mux_sellwb       => mux_sell_wb_in
-);
-
-
 branch_rst <= rst;
-regData2Anded <= mux_ramfwd_out2 and X"000000FF";
+regData2Anded <= regData2_id_out and X"000000FF";
 shifted       <= offset(30 downto 0) & '0';
 newAddress    <= pc_ex_in + shifted;
 
