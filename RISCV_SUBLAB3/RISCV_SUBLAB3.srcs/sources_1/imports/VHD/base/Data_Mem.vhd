@@ -40,9 +40,6 @@ begin
             MEM(conv_integer(Address+2)) <= dataIn(23 downto 16);
             MEM(conv_integer(Address+3)) <= dataIn(31 downto 24);
         end if;
-    end if;
-    end process;
-    
     dataOut <= MEM(conv_integer(Address+3)) & MEM(conv_integer(Address+2)) &
                MEM(conv_integer(Address+1)) & MEM(conv_integer(Address)); 
 
@@ -56,6 +53,10 @@ begin
                 MEM(conv_integer(Vaddr_2)+15) & MEM(conv_integer(Vaddr_2)+14) & MEM(conv_integer(Vaddr_2)+13) & MEM(conv_integer(Vaddr_2)+12) &
                 MEM(conv_integer(Vaddr_2)+11) & MEM(conv_integer(Vaddr_2)+10) & MEM(conv_integer(Vaddr_2)+9)  & MEM(conv_integer(Vaddr_2)+8)  &
                 MEM(conv_integer(Vaddr_2)+7)  & MEM(conv_integer(Vaddr_2)+6)  & MEM(conv_integer(Vaddr_2)+5)  & MEM(conv_integer(Vaddr_2)+4  ) &
-                MEM(conv_integer(Vaddr_2)+3)  & MEM(conv_integer(Vaddr_2)+2)  & MEM(conv_integer(Vaddr_2)+1)  & MEM(conv_integer(Vaddr_2)    );
+                MEM(conv_integer(Vaddr_2)+3)  & MEM(conv_integer(Vaddr_2)+2)  & MEM(conv_integer(Vaddr_2)+1)  & MEM(conv_integer(Vaddr_2)    );        
+    end if;
+    end process;
+    
+    
 
 end arch_Data_Mem ; -- arch_Data_Mem
