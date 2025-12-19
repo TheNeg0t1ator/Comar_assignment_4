@@ -4,14 +4,16 @@ use ieee.std_logic_unsigned.all;
 
 entity Reg_File is
     port (
-        clk         :in std_logic;
-        writeReg    :in std_logic;                          --signal for write in register
-        sourceReg1  :in std_logic_vector(4 downto 0);       --address of rs1
-        sourceReg2  :in std_logic_vector(4 downto 0);       --address of rs2
-        destinyReg  :in std_logic_vector(4 downto 0);       --address of rd
-        data        :in std_logic_vector(31 downto 0);      --Data to be written
-        readData1   :out std_logic_vector(31 downto 0);     --data in rs1
-        readData2   :out std_logic_vector(31 downto 0)      --data in rs2
+        clk                 :in  std_logic;
+        writeReg            :in  std_logic;                          --signal for write in register
+        sourceReg1          :in  std_logic_vector(4 downto 0);       --address of rs1
+        sourceReg2          :in  std_logic_vector(4 downto 0);       --address of rs2
+        destinyReg          :in  std_logic_vector(4 downto 0);       --address of rd
+        data                :in  std_logic_vector(31 downto 0);      --Data to be written
+        readData1           :out std_logic_vector(31 downto 0);     --data in rs1
+        readData2           :out std_logic_vector(31 downto 0);      --data in rs2
+        Matrixmul_ra        :out std_logic_vector(31 downto 0);
+        Matrixmul_ra_src    :in  std_logic_vector(4 downto 0)
     );
 end entity Reg_File;
 
@@ -32,5 +34,7 @@ begin
 
     readData1 <= registers(conv_integer(sourceReg1)) when sourceReg1 /= "00000" else (others => '0');   --asynchronic read from rs1
     readData2 <= registers(conv_integer(sourceReg2)) when sourceReg2 /= "00000" else (others => '0');   --asynchronic read from rs2
+
+    Matrixmul_ra <= registers(conv_integer(Matrixmul_ra_src)) when Matrixmul_ra_src /= "00000" else (others => '0');   --asynchronic read for matrixmul ra
 
 end arch_Reg_File ; -- arch_Reg_File
